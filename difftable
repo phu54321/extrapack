@@ -1,0 +1,39 @@
+            패턴            |     난이도    |    명칭       |    참고
+------------------------------------------------------------|----------------
+pattern16                   |   2           | 달려달려          # 쉽진 않지만, 1탄보스같이
+pattern01_var1              |   2           | 간단폭피
+pattern04                   |   2           | 우향우
+pattern11_var1              |   2           | 다다해악
+pattern52_var2              |   2           | 추가패턴3         #
+pattern49                   |   2.2         | 자전              #
+pattern37_var2              |   2.5         | 큰배사이로
+pattern02                   |   2.5         | 미꾸라지
+pattern37_var1              |   2.7         | 지그재그길
+pattern06_var2              |   3           | 파일런길막기
+pattern58                   |   3           | 불협화음
+pattern66                   |   3           | 빙글빙글          #
+pattern69                   |   3.2         | 회오리
+pattern55_var1              |   3.5         | 마름모뜷기
+pattern17                   |   3.5         | 천천히
+pattern54_var1              |   3.5         | 랜덤교차지점      #
+pattern65                   |   3.7         | 비트섬
+pattern05                   |   3.7         | 귀소본능          #
+pattern54                   |   4.2         | 교차지점
+pattern32                   |   5.5         | 융단폭격
+pattern64                   |   4.5         | 시정지
+pattern14                   |   4.5         | 반칸교대          #
+pattern22_var1              |   4.7         | 느림의 미학
+pattern63_var2              |   4.7         | 사구체
+pattern34                   |   4.7         | 애매모호
+pattern13                   |   5           | now Right
+pattern07_var2              |   5.5         | 육계단
+pattern68                   |   5.5         | 위 아래
+pattern18                   |   5.7         | 프로길막러
+pattern63                   |   6           | 각설이또옴
+pattern23_var4              |   6.5         | 반칸랜덤
+pattern09_var3              |   7           | 역반칸무빙
+
+
+pattern67                   |   ?           | 사면초가          #
+
+pattern39                   |   99999999    | 마이크로마우스 2

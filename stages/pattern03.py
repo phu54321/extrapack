@@ -24,6 +24,4 @@ Shoot(6, [
     CreateUnit(1, "Fast Missile", "u8", P7),
 ])
 
-Shoot(35, [
-    SetDeaths(P8, SetTo, -1, "@PatternSubCounter1"),
-])
+Loop(36)

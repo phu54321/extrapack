@@ -54,6 +54,7 @@ def delay(framen):
     EUDDoEvents()
     EUDEndLoopN()
 
+
 stage = EUDVariable()
 difficulty = EUDVariable()
 tryn = EUDVariable()
@@ -104,6 +105,10 @@ def main():
             EUDDoEvents()
         EUDEndLoopN()
         SetVariables([difficulty, initialstage, tryn], checkcode())
+        MPQAddWave(
+            "staredit\\wav\\bgmmono.wav",
+            open("bgmmono.wav", "rb").read()
+        )
     else:
         difficulty << config.difficulty
         initialstage << config.initialstage
@@ -115,6 +120,13 @@ def main():
 
     # Initialization trigger
     DoActions([
+        [
+            [
+                SetCurrentPlayer(pl),
+                RunAIScript('Turn OFF Shared Vision for Player 8'),
+            ] for pl in range(6)
+        ],
+
         # Resize unit dimension
         # 머신샵
         SetMemory(0x6617C8 + 120 * 8 + 0, SetTo, 0x001F001F),
@@ -165,7 +177,7 @@ def main():
         SetMemory(0x6C9E20 + 68, SetTo, 0x28280000),  # Battlecruiser (70)
 
         # 게임속도 Fastest로 고정
-        # SetDeaths(-122781, SetTo, 42, 0),
+        SetDeaths(-122781, SetTo, 42, 0),
     ])
 
     if config.slowmode:
@@ -509,11 +521,12 @@ def victorytext():
 
     delay(24 * 5)
 
+
 LoadMap('temp.scx')
 CompressPayload(True)
-SaveMap('Missile pack [ext] v2.1.scx', main)
+SaveMap('temp2.scx', main)
 
 # Apply mpaq
-# os.system('mpaq temp2.scx "Missile pack [ext] v2.1.scx"')
+os.system('mpaq temp2.scx "Missile pack [ext] v3.0.scx"')
 os.remove('temp.scx')
-# os.remove('temp2.scx')
+os.remove('temp2.scx')

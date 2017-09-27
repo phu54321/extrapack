@@ -1,5 +1,8 @@
 '''
 미사일 + 폭탄 변형 (Easy)
+
+2@@@ 못깹니다.
+
 '''
 
 from trggen import *

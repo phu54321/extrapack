@@ -112,12 +112,12 @@ Trigger(
 Trigger(
     players=[Force1],
     conditions=[
-        Accumulate(CurrentPlayer, AtLeast, 301, Gas),
+        Accumulate(CurrentPlayer, AtLeast, 101, Gas),
     ],
     actions=[
         PlayWAV('sound\Misc\Transmission.wav'),
-        DisplayText("\x04최대 라이프수 300에 맞췄습니다.", 4),
-        SetResources(CurrentPlayer, SetTo, 300, Gas),
+        DisplayText("\x04최대 라이프수 150에 맞췄습니다.", 4),
+        SetResources(CurrentPlayer, SetTo, 100, Gas),
         PreserveTrigger(),
     ],
 )
