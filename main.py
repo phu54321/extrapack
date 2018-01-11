@@ -30,7 +30,7 @@ config.difficulty = 1
 config.initialstage = 1
 
 if config.debugmode:
-    stagelists = [[('pattern63_var2', 'testing')] for _ in range(3)]
+    stagelists = [[('pattern67', 'testing')] for _ in range(3)]
 else:
     stagelists = [stagelist_easy, stagelist_normal, stagelist_hard]
 

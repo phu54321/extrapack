@@ -4,6 +4,7 @@ from loadcode import checkcode
 from timer import (
     f_istimerhit,
     f_starttimer,
+    f_tick
 )
 from stages.stages_commonlib import patternname_list
 import config
@@ -123,7 +124,7 @@ def main():
         [
             [
                 SetCurrentPlayer(pl),
-                RunAIScript('Turn OFF Shared Vision for Player 8'),
+                RunAIScript('Turn ON Shared Vision for Player 8'),
             ] for pl in range(6)
         ],
 
@@ -227,6 +228,8 @@ def main():
     userpl << f_getuserplayerid()
 
     if EUDInfLoop()():
+        f_tick()
+
         f_bgmloop()
         RunTrigTrigger()
 

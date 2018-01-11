@@ -38,7 +38,7 @@ Shoot(10, [
     CreateUnit(1, "Fast Missile", "l9", P7),
 ])
 
-Shoot(10, [
+Shoot(0, [
     CreateUnit(1, "Fast Missile", "l1", P7),
     CreateUnit(1, "Odd Fast Missile", "ol3", P7),
     CreateUnit(1, "Fast Missile", "l4", P7),

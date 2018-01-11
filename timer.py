@@ -1,9 +1,11 @@
 from eudplib import *
 
 
+time = EUDVariable()
+
 @EUDFunc
 def f_time():
-    return 0xFFFFFFFF - f_dwread_epd(EPD(0x51CE8C))
+    return time
 
 dsttimer = EUDVariable()
 
@@ -22,3 +24,9 @@ def f_istimerhit():
         ret << 0
     EUDEndIf()
     return ret
+
+
+@EUDFunc
+def f_tick():
+    time << time + 42
+
