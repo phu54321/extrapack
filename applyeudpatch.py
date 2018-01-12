@@ -8,6 +8,7 @@ from timer import (
 from stages.stages_commonlib import patternname_list
 import config
 import os
+from checkauthor import checkauthor
 
 if __name__ == '__main__':
     raise RuntimeError('Run main.py')
@@ -62,7 +63,8 @@ def main():
         EUDEndInfLoop()
     EUDEndIf()
 
-    # checkauthor()  # 리플레이 방지 & 방장인식
+    if config.debugmode:
+        checkauthor()
 
     # 코드 인식
     initialstage = EUDVariable()
@@ -167,7 +169,7 @@ def main():
     f_starttimer(0)
 
     if config.debugmode:
-        initiallife = 150
+        initiallife = 100
     else:
         initiallife = 30
 

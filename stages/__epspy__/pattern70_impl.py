@@ -67,100 +67,129 @@ from stages import ep_commonlib as cl
 # (Line 3) var iflag = 0;
 iflag = EUDCreateVariables(1)
 _IGVA([iflag], lambda: [0])
-# (Line 4) var t = 23;
+# (Line 4) var t = 0;
 t = EUDCreateVariables(1)
-_IGVA([t], lambda: [23])
-# (Line 5) var sx, sy = 1, 1;
-sx, sy = EUDCreateVariables(2)
-_IGVA([sx, sy], lambda: [1, 1])
-# (Line 6) const dt = 24;
-dt = _CGFW(lambda: [24], 1)[0]
-# (Line 8) function pattern70() {
+_IGVA([t], lambda: [0])
+# (Line 5) const dt = 18;
+dt = _CGFW(lambda: [18], 1)[0]
+# (Line 7) function pattern70() {
 @EUDFunc
 def f_pattern70():
-    # (Line 9) if (iflag == 0) {
+    # (Line 8) if (iflag == 0) {
     if EUDIf()(iflag == 0):
-        # (Line 10) CreateUnit(25, "Recaller", "arbiter", P8);
-        # (Line 11) iflag = 1;
-        DoActions(CreateUnit(25, "Recaller", "arbiter", P8))
+        # (Line 9) CreateUnit(25, "Recaller", "arbiter", P8);
+        # (Line 11) CreateUnit(1, "Small Slow Heavy Missile", "u3", P8);
+        # (Line 12) CreateUnit(1, "Small Slow Heavy Missile", "u4", P8);
+        # (Line 13) CreateUnit(1, "Small Slow Heavy Missile", "u5", P8);
+        # (Line 14) CreateUnit(1, "Small Slow Heavy Missile", "u6", P8);
+        # (Line 15) CreateUnit(1, "Small Slow Heavy Missile", "u7", P8);
+        # (Line 16) Order("(men)", P8, "u3", Move, "d3");
+        # (Line 17) Order("(men)", P8, "u4", Move, "d4");
+        # (Line 18) Order("(men)", P8, "u5", Move, "d5");
+        # (Line 19) Order("(men)", P8, "u6", Move, "d6");
+        # (Line 20) Order("(men)", P8, "u7", Move, "d7");
+        # (Line 21) iflag = 1;
+        DoActions([
+            CreateUnit(25, "Recaller", "arbiter", P8),
+            CreateUnit(1, "Small Slow Heavy Missile", "u3", P8),
+            CreateUnit(1, "Small Slow Heavy Missile", "u4", P8),
+            CreateUnit(1, "Small Slow Heavy Missile", "u5", P8),
+            CreateUnit(1, "Small Slow Heavy Missile", "u6", P8),
+            CreateUnit(1, "Small Slow Heavy Missile", "u7", P8),
+            Order("(men)", P8, "u3", Move, "d3"),
+            Order("(men)", P8, "u4", Move, "d4"),
+            Order("(men)", P8, "u5", Move, "d5"),
+            Order("(men)", P8, "u6", Move, "d6"),
+            Order("(men)", P8, "u7", Move, "d7")
+        ])
         iflag << (1)
-        # (Line 12) }
-        # (Line 14) t++;
+        # (Line 22) }
+        # (Line 24) KillUnitAt(All, '(men)', 'u', P7);
+    EUDEndIf()
+    # (Line 25) KillUnitAt(All, '(men)', 'd', P7);
+    # (Line 26) KillUnitAt(All, '(men)', 'l', P7);
+    # (Line 27) KillUnitAt(All, '(men)', 'r', P7);
+    # (Line 28) KillUnitAt(All, '(men)', 'd', P8);
+    # (Line 30) if(t == 1) {
+    DoActions([
+        KillUnitAt(All, '(men)', 'u', P7),
+        KillUnitAt(All, '(men)', 'd', P7),
+        KillUnitAt(All, '(men)', 'l', P7),
+        KillUnitAt(All, '(men)', 'r', P7),
+        KillUnitAt(All, '(men)', 'd', P8)
+    ])
+    if EUDIf()(t == 1):
+        # (Line 31) for(var i = 0 ; i < 2 ; i++) {
+        i = EUDVariable()
+        i << (0)
+        if EUDWhile()(i < 2):
+            def _t20():
+                i.__iadd__(1)
+            # (Line 32) for(var j = 0 ; j < 5 ; j++) {
+            j = EUDVariable()
+            j << (0)
+            if EUDWhile()(j < 5):
+                def _t22():
+                    j.__iadd__(1)
+                # (Line 33) const x, y = 1 + i * 8, 1 + j * 2;
+                x, y = List2Assignable([1 + i * 8, 1 + j * 2])
+                # (Line 34) cl.mloc_tile($L('cloc1'), x, y, 0);
+                # (Line 35) RunAIScriptAt('Recall Here', 'cloc1');
+                cl.f_mloc_tile(GetLocationIndex('cloc1'), x, y, 0)
+                # (Line 36) }
+                DoActions(RunAIScriptAt('Recall Here', 'cloc1'))
+                # (Line 37) }
+                EUDSetContinuePoint()
+                _t22()
+            EUDEndWhile()
+            # (Line 38) }
+            EUDSetContinuePoint()
+            _t20()
+        EUDEndWhile()
+        # (Line 39) else if(t == dt) {
+    if EUDElseIf()(t == dt):
+        # (Line 40) t = 0;
+        t << (0)
+        # (Line 41) for(var i = 0 ; i < 2 ; i++) {
+        i = EUDVariable()
+        i << (0)
+        if EUDWhile()(i < 2):
+            def _t26():
+                i.__iadd__(1)
+            # (Line 42) for(var j = 0 ; j < 5 ; j++) {
+            j = EUDVariable()
+            j << (0)
+            if EUDWhile()(j < 5):
+                def _t28():
+                    j.__iadd__(1)
+                # (Line 43) const x, y = 1 + i * 8, 1 + j * 2;
+                x, y = List2Assignable([1 + i * 8, 1 + j * 2])
+                # (Line 44) cl.mloc_tile($L('cloc1'), x, y, -16);
+                # (Line 45) CreateUnit(1, "Small Slow Missile", "cloc1", P7);
+                cl.f_mloc_tile(GetLocationIndex('cloc1'), x, y, -16)
+                # (Line 46) const px, py = cl.getTilePos(x, y);
+                DoActions(CreateUnit(1, "Small Slow Missile", "cloc1", P7))
+                px, py = List2Assignable([cl.f_getTilePos(x, y)])
+                # (Line 47) const angle = rand() % 360;
+                angle = f_rand() % 360
+                # (Line 48) const dx, dy = lengthdir(800, angle);
+                dx, dy = List2Assignable([f_lengthdir(800, angle)])
+                # (Line 49) const dpx, dpy = cl.getInfiniteVectorEnd(px, py, dx, dy);
+                dpx, dpy = List2Assignable([cl.f_getInfiniteVectorEnd(px, py, dx, dy)])
+                # (Line 50) cl.mloc_px($L('cloc2'), dpx, dpy, 0);
+                # (Line 51) Order('(men)', P7, 'cloc1', Move, 'cloc2');
+                cl.f_mloc_px(GetLocationIndex('cloc2'), dpx, dpy, 0)
+                # (Line 52) }
+                DoActions(Order('(men)', P7, 'cloc1', Move, 'cloc2'))
+                # (Line 53) }
+                EUDSetContinuePoint()
+                _t28()
+            EUDEndWhile()
+            # (Line 54) }
+            EUDSetContinuePoint()
+            _t26()
+        EUDEndWhile()
+        # (Line 55) t++;
     EUDEndIf()
     t.__iadd__(1)
-    # (Line 15) if(t == dt - 1) {
-    if EUDIf()(t == dt - 1):
-        # (Line 16) for(var i = 0 ; i < 3 ; i++) {
-        i = EUDVariable()
-        i << (0)
-        if EUDWhile()(i < 3):
-            def _t5():
-                i.__iadd__(1)
-            # (Line 17) for(var j = 0 ; j < 3 ; j++) {
-            j = EUDVariable()
-            j << (0)
-            if EUDWhile()(j < 3):
-                def _t7():
-                    j.__iadd__(1)
-                # (Line 18) const x, y = sx + i * 3, sy + j * 3;
-                x, y = List2Assignable([sx + i * 3, sy + j * 3])
-                # (Line 19) cl.move_mvloc(x, y);
-                # (Line 20) CreateUnit(1, "Small Slow Heavy Missile", "mvloc", P7);
-                cl.f_move_mvloc(x, y)
-                # (Line 21) }
-                DoActions(CreateUnit(1, "Small Slow Heavy Missile", "mvloc", P7))
-                # (Line 22) }
-                EUDSetContinuePoint()
-                _t7()
-            EUDEndWhile()
-            # (Line 23) sx++;
-            EUDSetContinuePoint()
-            _t5()
-        EUDEndWhile()
-        sx.__iadd__(1)
-        # (Line 24) if(sx == 4) {
-        if EUDIf()(sx == 4):
-            # (Line 25) sx = 1;
-            sx << (1)
-            # (Line 26) sy++;
-            sy.__iadd__(1)
-            # (Line 27) if(sy == 4) sy = 1;
-            if EUDIf()(sy == 4):
-                sy << (1)
-                # (Line 28) }
-            EUDEndIf()
-            # (Line 29) }
-        EUDEndIf()
-        # (Line 30) else if(t == dt) {
-    if EUDElseIf()(t == dt):
-        # (Line 31) t = 0;
-        t << (0)
-        # (Line 32) for(var i = 0 ; i < 3 ; i++) {
-        i = EUDVariable()
-        i << (0)
-        if EUDWhile()(i < 3):
-            def _t13():
-                i.__iadd__(1)
-            # (Line 33) for(var j = 0 ; j < 3 ; j++) {
-            j = EUDVariable()
-            j << (0)
-            if EUDWhile()(j < 3):
-                def _t15():
-                    j.__iadd__(1)
-                # (Line 34) const x, y = sx + i * 3, sy + j * 3;
-                x, y = List2Assignable([sx + i * 3, sy + j * 3])
-                # (Line 35) cl.move_mvloc(x, y);
-                # (Line 36) RunAIScriptAt('Recall Here', 'mvloc');
-                cl.f_move_mvloc(x, y)
-                # (Line 37) }
-                DoActions(RunAIScriptAt('Recall Here', 'mvloc'))
-                # (Line 38) }
-                EUDSetContinuePoint()
-                _t15()
-            EUDEndWhile()
-            # (Line 39) }
-            EUDSetContinuePoint()
-            _t13()
-        EUDEndWhile()
-        # (Line 40) }
-    EUDEndIf()
+    # (Line 56) }

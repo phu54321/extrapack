@@ -1,40 +1,56 @@
 import stages.ep_commonlib as cl;
 
 var iflag = 0;
-var t = 23;
-var sx, sy = 1, 1;
-const dt = 24;
+var t = 0;
+const dt = 18;
 
 function pattern70() {
     if (iflag == 0) {
         CreateUnit(25, "Recaller", "arbiter", P8);
+
+        CreateUnit(1, "Small Slow Heavy Missile", "u3", P8);
+        CreateUnit(1, "Small Slow Heavy Missile", "u4", P8);
+        CreateUnit(1, "Small Slow Heavy Missile", "u5", P8);
+        CreateUnit(1, "Small Slow Heavy Missile", "u6", P8);
+        CreateUnit(1, "Small Slow Heavy Missile", "u7", P8);
+        Order("(men)", P8, "u3", Move, "d3");
+        Order("(men)", P8, "u4", Move, "d4");
+        Order("(men)", P8, "u5", Move, "d5");
+        Order("(men)", P8, "u6", Move, "d6");
+        Order("(men)", P8, "u7", Move, "d7");
         iflag = 1;
     }
 
-    t++;
-    if(t == dt - 1) {
-        for(var i = 0 ; i < 3 ; i++) {
-            for(var j = 0 ; j < 3 ; j++) {
-                const x, y = sx + i * 3, sy + j * 3;
-                cl.move_mvloc(x, y);
-                CreateUnit(1, "Small Slow Heavy Missile", "mvloc", P7);
+    KillUnitAt(All, '(men)', 'u', P7);
+    KillUnitAt(All, '(men)', 'd', P7);
+    KillUnitAt(All, '(men)', 'l', P7);
+    KillUnitAt(All, '(men)', 'r', P7);
+    KillUnitAt(All, '(men)', 'd', P8);
+
+    if(t == 1) {
+        for(var i = 0 ; i < 2 ; i++) {
+            for(var j = 0 ; j < 5 ; j++) {
+                const x, y = 1 + i * 8, 1 + j * 2;
+                cl.mloc_tile($L('cloc1'), x, y, 0);
+                RunAIScriptAt('Recall Here', 'cloc1');
             }
-        }
-        sx++;
-        if(sx == 4) {
-            sx = 1;
-            sy++;
-            if(sy == 4) sy = 1;
         }
     }
     else if(t == dt) {
         t = 0;
-        for(var i = 0 ; i < 3 ; i++) {
-            for(var j = 0 ; j < 3 ; j++) {
-                const x, y = sx + i * 3, sy + j * 3;
-                cl.move_mvloc(x, y);
-                RunAIScriptAt('Recall Here', 'mvloc');
+        for(var i = 0 ; i < 2 ; i++) {
+            for(var j = 0 ; j < 5 ; j++) {
+                const x, y = 1 + i * 8, 1 + j * 2;
+                cl.mloc_tile($L('cloc1'), x, y, -16);
+                CreateUnit(1, "Small Slow Missile", "cloc1", P7);
+                const px, py = cl.getTilePos(x, y);
+                const angle = rand() % 360;
+                const dx, dy = lengthdir(800, angle);
+                const dpx, dpy = cl.getInfiniteVectorEnd(px, py, dx, dy);
+                cl.mloc_px($L('cloc2'), dpx, dpy, 0);
+                Order('(men)', P7, 'cloc1', Move, 'cloc2');
             }
         }
     }
+    t++;
 }

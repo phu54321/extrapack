@@ -108,7 +108,7 @@ Trigger(
 )
 
 
-# 150개 이상 라이프는 제거
+# 100개 이상 라이프는 제거
 Trigger(
     players=[Force1],
     conditions=[
