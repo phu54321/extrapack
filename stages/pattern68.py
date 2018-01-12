@@ -3,13 +3,17 @@ from .stages_commonlib import *
 
 
 InitNone([
-    CreateUnit(1, 'Heavy Missile', 'u%d' % i, P7)
+    [
+        CreateUnit(1, 'Heavy Missile', 'u%d' % i, P7),
+        Order('Heavy Missile', P7, 'u%d' % i, Move, 'd%d' % i)
+    ]
     for i in range(1, 10)
 ])
 
 AlwaysShoot([
     KillUnitAt(All, "Small Slow Heavy Missile", "u", P7),
     KillUnitAt(All, "Small Missile", "r", P8),
+    KillUnitAt(All, "Heavy Missile", "d", P7),
 ])
 
 # ---------------

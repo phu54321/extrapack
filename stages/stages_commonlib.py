@@ -1,4 +1,6 @@
 from trggen import *
+import trggen
+from trggen import mapdata
 from condblock import CondBlock
 from contextlib import contextmanager
 
@@ -321,3 +323,26 @@ def Loop(time):
             PreserveTrigger(),
         ],
     )
+
+
+def inline_eudplib(players, s):
+    players = FlattenList(players)
+
+    playerFlag = 0
+    for p in players:
+        p = ParsePlayer(p)
+        playerFlag |= (1 << p)
+
+    AddSpecialData(0x10978d4a, trggen.binio.i2b4(playerFlag) + trggen.ubconv.u2b(s))
+
+
+def AddSpecialData(code, data):
+    datalen = len(data)
+    condlen = min(datalen, 296)
+    actlen = min(datalen - condlen, 32 * 63)
+
+    ob = bytearray(2400)
+    ob[20:24] = trggen.binio.i2b4(code)
+    ob[24:24 + condlen] = data[:condlen]
+    ob[352:352 + actlen] = data[condlen:condlen + actlen]
+    trggen.mapdata.trgtable.append(ob)

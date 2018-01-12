@@ -8,11 +8,11 @@ from .stages_commonlib import *
 InitWalls([
     ' ########',
     ' #       ',
+    ' #       ',
     ' #     # ',
     ' #     # ',
     ' #     # ',
-    ' #     # ',
-    ' #     # ',
+    '       # ',
     '       # ',
     '######## ',
 ])
@@ -48,3 +48,5 @@ Shoot(0, [
 ])
 
 Loop(30)
+
+SelectCounter(1)

@@ -7,7 +7,7 @@ stagelist_normal = [
     ('pattern09_var1', '반칸 미사일'),
     ('pattern57', '양쪽에서 일자미사일'),
     ('pattern52', '사이비팩 보너스패턴 변형'),
-    ('pattern44', 'TimeLock'),
+    # ('pattern44', 'TimeLock'),
     ('pattern24', '8방향 폭탄피하기'),
     ('pattern09_var2', '십자 반칸 미사일'),
     ('pattern52_var1', '사이비팩 보너스패턴 변형 2'),

@@ -15,7 +15,6 @@ from trggen import *
 
 import config
 from stages.stages_commonlib import SetStage
-import savecode
 import winsound
 
 # 스테이지들
@@ -25,12 +24,12 @@ from stgl_hd import stagelist_hard
 
 
 config.slowmode = False
-config.debugmode = False
+config.debugmode = True
 config.difficulty = 1
 config.initialstage = 1
 
 if config.debugmode:
-    stagelists = [[('pattern67', 'testing')] for _ in range(3)]
+    stagelists = [[('pattern70', 'testing')] for _ in range(3)]
 else:
     stagelists = [stagelist_easy, stagelist_normal, stagelist_hard]
 
@@ -52,11 +51,8 @@ for diff, stagelist in enumerate(stagelists):
     for i, pdata in enumerate(stagelist):
         SetStage(config.diffn, diff, i + 1, pdata[1])
         run_module('stages.%s' % pdata[0])
-        savecode.RegisterStage(diff, i, pdata[0])
 
     print('#Stages in diff %d : %d' % (diff, len(stagelist)))
-
-savecode.UpdateBasehash()
 
 
 ##############################################################

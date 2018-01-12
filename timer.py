@@ -1,7 +1,7 @@
 from eudplib import *
 
 
-time = EUDVariable()
+time = EUDVariable(1234)
 
 @EUDFunc
 def f_time():
@@ -29,4 +29,3 @@ def f_istimerhit():
 @EUDFunc
 def f_tick():
     time << time + 42
-

@@ -100,7 +100,7 @@ Trigger(  # 탄 클리어 처리
         RemoveUnit("Dodger", Force1),
         RemoveUnit("Bunker", Force1),
         CreateUnit(1, "Dodger", "StageStart", Force1),
-        SetResources(Force1, Add, 20, Gas),
+        SetResources(Force1, Add, 15, Gas),
 
         SetSwitch('UpdateStageCode', Set),
         PreserveTrigger(),

@@ -1,5 +1,4 @@
 from eudplib import *
-import savecode
 from loadcode import checkcode
 from timer import (
     f_istimerhit,
@@ -15,10 +14,6 @@ if __name__ == '__main__':
 
 
 # Make list of patterns
-pndbs = [0] * (max(patternname_list.keys()) + 1)
-for k, v in patternname_list.items():
-    pndbs[k] = Db(u2b(v) + b'\0')
-pndb_arr = EUDArray(pndbs)
 
 
 @EUDFunc
@@ -29,21 +24,9 @@ def f_bgmloop():
         for player in range(8):
             DoActions([
                 SetCurrentPlayer(player),
-                PlayWAV('staredit\\wav\\bgmmono.wav')
+                PlayWAV('staredit\\wav\\bgmmono.ogg')
             ])
     EUDEndIf()
-
-
-@EUDFunc
-def f_getstringaddr(strid):
-    br = EUDByteReader()
-    strsection_addr = f_dwread_epd(EPD(0x5993D4))
-    br.seekoffset(strsection_addr + 2 * strid)
-    ch1 = br.readbyte()
-    ch2 = br.readbyte()
-    stroffset = 256 * ch2 + ch1
-    soffset = strsection_addr + stroffset
-    return soffset
 
 
 def delay(framen):
@@ -58,7 +41,6 @@ def delay(framen):
 
 stage = EUDVariable()
 difficulty = EUDVariable()
-tryn = EUDVariable()
 userpl = EUDVariable()
 
 
@@ -90,7 +72,7 @@ def main():
             [
                 SetCurrentPlayer(player),
                 # MuteUnitSpeech(),
-                DisplayExtText(SCMD2Text('''\
+                DisplayText(SCMD2Text('''\
     <13><0F><04>Missile pack <02>[Extra]<04>
 
     <13><05>Created by cpy3001
@@ -105,19 +87,15 @@ def main():
             ])
             EUDDoEvents()
         EUDEndLoopN()
-        SetVariables([difficulty, initialstage, tryn], checkcode())
-        MPQAddWave(
-            "staredit\\wav\\bgmmono.wav",
-            open("bgmmono.wav", "rb").read()
+        SetVariables([difficulty, initialstage], checkcode())
+        MPQAddFile(
+            "staredit\\wav\\bgmmono.ogg",
+            open("bgmmono.ogg", "rb").read()
         )
     else:
         difficulty << config.difficulty
         initialstage << config.initialstage
-        tryn << 0
         DoActions(RemoveUnitAt(All, '(any unit)', 'lvselbox', AllPlayers))
-
-    proceeded_flag = EUDVariable()
-    proceeded_flag << 0  # 탄을 하나라도 깨면 이게 1이 되면서 tryn이 +1된다.
 
     # Initialization trigger
     DoActions([
@@ -126,9 +104,7 @@ def main():
                 SetCurrentPlayer(pl),
                 RunAIScript('Turn ON Shared Vision for Player 8'),
             ] for pl in range(6)
-        ],
-
-        # Resize unit dimension
+        ],        # Resize unit dimension
         # 머신샵
         SetMemory(0x6617C8 + 120 * 8 + 0, SetTo, 0x001F001F),
         SetMemory(0x6617C8 + 120 * 8 + 4, SetTo, 0x001F001F),
@@ -187,15 +163,6 @@ def main():
             SetDeaths(-122781, SetTo, 84, 0),
         )
 
-    # 세이브 횟수 표기
-    saven_strid = EncodeString('\x04라이프 \x03| \x04세이브 횟수 : 00번 이상')
-    soffset = f_getstringaddr(saven_strid)
-    soffset = f_dbstr_print(soffset, '\x04라이프 \x03| \x04세이브 횟수 : ')
-    soffset = f_dbstr_adddw(soffset, tryn)
-    if EUDIf()(tryn == 20):  # 20세이브 이상부터는 세이브코드를 따로 발급하지 않음
-        soffset << f_dbstr_print(soffset, '번 이상')
-    EUDEndIf()
-
     # Init bgm loop
     f_starttimer(0)
 
@@ -214,7 +181,7 @@ def main():
         SetDeaths(P8, SetTo, difficulty, "@Difficulty"),
         SetDeaths(P8, SetTo, 2, "@GameState"),
         SetResources(Force1, SetTo, initiallife - 20, Gas),
-        LeaderBoardResources(Gas, saven_strid),
+        LeaderBoardResources(Gas, '\x04라이프 \x03'),
         LeaderBoardComputerPlayers(Disable),
         SetMemory(0x51CE98, SetTo, 2),  # 터보시야
         SetMemory(0x6509A0, SetTo, 1),
@@ -277,60 +244,25 @@ def main():
 
         # 코드 재계산
         if EUDIf()(Switch('UpdateStageCode', Set)):
-            # 재시도 횟수 업데이트.
-            if EUDIf()(proceeded_flag == 0):  # 처음 스테이지
-                proceeded_flag << 1
-            if EUDElseIf()(proceeded_flag == 1):  # 스테이지를 처음 클리어.
-                proceeded_flag << 2
-                tryn << tryn + 1
-                Trigger(tryn == 21, tryn.SetNumber(20))
-            EUDEndIf()
-
-            code = savecode.f_gethash(userpl, difficulty, stage, tryn)
-
             euda_cursnl = EUDArray(config.stagenarr)
 
             if EUDIfNot()(stage == euda_cursnl[difficulty]):  # 막탄 아닌 경우
+                f_setcurpl(f_getuserplayerid())
                 # 스트링 변형
-                target_strid = EncodeString('#' * 512)  # 512byte inside str.
-                soffset = f_getstringaddr(target_strid)
-
-                # print names
-                soffset = f_dbstr_print(soffset, '\x13\x02')
-
-                if EUDIf()(difficulty == 0):
-                    soffset << f_dbstr_print(soffset, 'Easy ')
-                if EUDElseIf()(difficulty == 1):
-                    soffset << f_dbstr_print(soffset, 'Normal ')
-                if EUDElseIf()(difficulty == 2):
-                    soffset << f_dbstr_print(soffset, 'Hard ')
-                EUDEndIf()
-
-                soffset << f_dbstr_print(soffset, stage + 1, ''' : \x04''')
-                soffset << f_dbstr_addstr(
-                    soffset,
-                    pndb_arr[config.diffn * stage + difficulty]
-                )
-                soffset << f_dbstr_print(soffset, '\n\x13\x05세이브 코드 : 000000')
-
-                if EUDIf()(stage == 0):
-                    f_dbstr_print(soffset - 6, '없음')
-                if EUDElse()():
-                    savecode.f_writebase24str(code, soffset - 6)
-                EUDEndIf()
-
-                # 텍스트 출력
-                pl = EUDVariable()
-                pl << 0
-                if EUDWhile()(pl <= 5):
-                    f_setcurpl(pl)
-
-                    DoActions([
-                        DisplayText(target_strid),
-                        SetMissionObjectives(target_strid)
-                    ])
-                    pl += 1
-                EUDEndWhile()
+                for k in patternname_list.keys():
+                    targetStage = k // config.diffn
+                    targetDifficulty = k % config.diffn
+                    diffstr = ['Easy', 'Normal', 'Hard'][targetDifficulty]
+                    target_string = (
+                        "\x13\x02%s %d : \x04%s\n" %
+                        (diffstr, targetStage + 1, patternname_list[k])
+                    )
+                    if EUDIf()([
+                        stage == targetStage,
+                        difficulty == targetDifficulty
+                    ]):
+                        DoActions(DisplayText(target_string))
+                    EUDEndIf()
             EUDEndIf()
             # 끗
             DoActions(SetSwitch('UpdateStageCode', Clear))
@@ -527,9 +459,5 @@ def victorytext():
 
 LoadMap('temp.scx')
 CompressPayload(True)
-SaveMap('temp2.scx', main)
-
-# Apply mpaq
-os.system('mpaq temp2.scx "Missile pack [ext] v3.0.scx"')
+SaveMap('Missile pack [ext] v3.1.scx', main)
 os.remove('temp.scx')
-os.remove('temp2.scx')

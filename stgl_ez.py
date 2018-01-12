@@ -12,7 +12,7 @@ stagelist_easy = [
     ('pattern23_var1', '랜덤 미사일'),
     ('pattern29_var1', '역주행'),
     ('pattern52_var1_var1', '사이비팩 보너스패턴 변형 2'),
-    ('pattern44_var1', 'TimeLock'),
+    # ('pattern44_var1', 'TimeLock'),
     ('pattern50_var1', '좁아터진 길'),
     ('pattern40', '무궁화꽃이피었습니다'),
     # ('pattern55_var1', '컨베이어 벨트 돌리기'),

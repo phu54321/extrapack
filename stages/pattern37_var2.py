@@ -54,7 +54,7 @@ def ract(i):
         return []
 
 
-dt = 20
+dt = 15
 
 SelectCounter(0)
 
@@ -63,7 +63,7 @@ SelectCounter(0)
 
 
 rowtb = [
-    4, 2, 0, -2, -4, -3, -1, 1, 3,
+    4, 2, 3, 1
 ]
 
 for i in range(len(rowtb)):
@@ -79,7 +79,7 @@ for i in range(len(rowtb)):
 
 
 rowtb = [
-    -3, -1, 1, 3, 4, 2, 0, -2, -4,
+    2, 3, 1, 4
 ]
 
 for i in range(len(rowtb)):

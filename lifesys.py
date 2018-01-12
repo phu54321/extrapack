@@ -116,7 +116,7 @@ Trigger(
     ],
     actions=[
         PlayWAV('sound\Misc\Transmission.wav'),
-        DisplayText("\x04최대 라이프수 150에 맞췄습니다.", 4),
+        DisplayText("\x04최대 라이프수 100에 맞췄습니다.", 4),
         SetResources(CurrentPlayer, SetTo, 100, Gas),
         PreserveTrigger(),
     ],
