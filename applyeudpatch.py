@@ -63,8 +63,9 @@ def main():
         EUDEndInfLoop()
     EUDEndIf()
 
-    if config.debugmode:
-        checkauthor()
+    checkauthor()
+    # if config.debugmode:
+    #     checkauthor()
 
     # 코드 인식
     initialstage = EUDVariable()
@@ -158,13 +159,6 @@ def main():
         # 게임속도 Fastest로 고정
         SetDeaths(-122781, SetTo, 42, 0),
     ])
-
-    if config.slowmode:
-        Trigger(
-            Memory(0x006D0F14, Exactly, 0),
-            SetDeaths(-122781, SetTo, 84, 0),
-        )
-
     # Init bgm loop
     f_starttimer(0)
 
@@ -198,9 +192,25 @@ def main():
 
     if EUDInfLoop()():
         f_tick()
-
         f_bgmloop()
         RunTrigTrigger()
+
+        # Debugmode → Slow mode를 활성화
+        if config.debugmode and config.slowmode:
+            if EUDIf()(Bring(Force1, AtLeast, 1, "Dodger", "slow")):
+                if EUDIf()(Deaths(-122781, Exactly, 42, 0)):
+                    DoActions([
+                        MoveUnit(All, "Dodger", Force1, "slow", "StageStart"),
+                        SetDeaths(-122781, SetTo, 84, 0),
+                    ])
+                if EUDElse()():
+                    DoActions([
+                        MoveUnit(All, "Dodger", Force1, "slow", "StageStart"),
+                        SetDeaths(-122781, SetTo, 42, 0),
+                    ])
+                EUDEndIf()
+            EUDEndIf()
+
 
         # 코드 계산 시작
         stage << f_dwread_epd(12 * EncodeUnit('@PatternSelector') + 7) - 1
@@ -286,32 +296,38 @@ def main():
             f_dwwrite_epd(unitepd + 0xDC // 4, statusFlag)
 
             # 멈춤 설정
+            # /*0x034*/ u32           flingyTopSpeed;
+            # /*0x060*/ u32         shieldPoints;
             playerID = f_dwbreak(f_dwread_epd(unitepd + 0x4C // 4))[2]
-            Trigger(
-                [
-                    Switch('LockMissileP7', Set),
-                    playerID.Exactly(EncodePlayer(P7)),
-                ],
-                [
-                    SetDeaths(unitepd + 0x38 // 4, SetTo, 0, 0),
-                    SetDeaths(unitepd + 0x3C // 4, SetTo, 0, 0),
-                    SetDeaths(unitepd + 0x40 // 4, SetTo, 0, 0),
-                    SetDeaths(unitepd + 0x44 // 4, SetTo, 0, 0),
-                ]
-            )
+            c = EUDVariable()
+            c << 0
+            if EUDIf()(playerID.Exactly(EncodePlayer(P7))):
+                c << 2
+                Trigger(Switch('LockMissileP7', Set), c.SetNumber(1))
+            if EUDElseIf()(playerID.Exactly(EncodePlayer(P8))):
+                c << 2
+                Trigger(Switch('LockMissileP8', Set), c.SetNumber(1))
+            EUDEndIf()
 
-            Trigger(
-                [
-                    Switch('LockMissileP8', Set),
-                    playerID.Exactly(EncodePlayer(P8)),
-                ],
-                [
-                    SetDeaths(unitepd + 0x38 // 4, SetTo, 0, 0),
-                    SetDeaths(unitepd + 0x3C // 4, SetTo, 0, 0),
-                    SetDeaths(unitepd + 0x40 // 4, SetTo, 0, 0),
-                    SetDeaths(unitepd + 0x44 // 4, SetTo, 0, 0),
-                ]
-            )
+            if EUDIf()(c == 1):
+                oldTopSpeed = f_dwread_epd(unitepd + 0x34 // 4)
+                Trigger(
+                    oldTopSpeed != 60,
+                    [
+                        SetMemoryEPD(unitepd + 0x34 // 4, SetTo, 60),
+                        SetMemoryEPD(unitepd + 0x64 // 4, Add, 65536 * oldTopSpeed),
+                    ]
+                )
+            if EUDElseIf()(c == 2):
+                cachedTopV = f_dwbreak(f_dwread_epd(unitepd + 0x64 // 4))[1]
+                Trigger(
+                    cachedTopV != 0,
+                    [
+                        SetMemoryEPD(unitepd + 0x34 // 4, SetTo, cachedTopV),
+                        SetMemoryEPD(unitepd + 0x64 // 4, Subtract, 65536 * cachedTopV),
+                    ]
+                )
+            EUDEndIf()
 
             EUDSetContinuePoint()
             SetVariables([unitptr, unitepd], f_dwepdread_epd(unitepd + 4 // 4))

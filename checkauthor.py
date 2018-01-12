@@ -46,7 +46,6 @@ def checkauthor():
         EUDEndInfLoop()
     EUDEndIf()
 
-
     # ID Check
     allowexec = EUDVariable()
 

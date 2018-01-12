@@ -1,12 +1,13 @@
 import stages.ep_commonlib as cl;
 
 var iflag = 0;
+const mUnit = $U("Small Slow Missile");
 
 var t = 0;
 const loopt = 13;
 
 var gangle = 0;
-const dangle = 15;
+const dangle = 18;
 
 function pattern() {
     if (iflag == 0) {
@@ -25,10 +26,10 @@ function pattern() {
         iflag = 1;
     }
 
-    KillUnitAt(All, '(men)', 'u', P7);
-    KillUnitAt(All, '(men)', 'd', P7);
-    KillUnitAt(All, '(men)', 'l', P7);
-    KillUnitAt(All, '(men)', 'r', P7);
+    KillUnitAt(All, mUnit, 'u', Force2);
+    KillUnitAt(All, mUnit, 'd', Force2);
+    KillUnitAt(All, mUnit, 'l', Force2);
+    KillUnitAt(All, mUnit, 'r', Force2);
     KillUnitAt(All, '(men)', 'd', P8);
 
     if(t == 1) {
@@ -46,13 +47,13 @@ function pattern() {
             for(var j = 0 ; j < 5 ; j++) {
                 const x, y = 1 + i * 8, 1 + j * 2;
                 cl.mloc_tile($L('cloc1'), x, y, -40);
-                CreateUnit(1, "Small Slow Missile", "cloc1", P7);
+                CreateUnit(1, mUnit, "cloc1", P7);
                 const px, py = cl.getTilePos(x, y);
-                const angle = gangle + (36 * 7) * (i + j * 2);
+                const angle = gangle + (36 * 3) * (i + j * 2);
                 const dx, dy = lengthdir(800, angle);
                 const dpx, dpy = cl.getInfiniteVectorEnd(px, py, dx, dy);
                 cl.mloc_px($L('cloc2'), dpx, dpy, 0);
-                Order('(men)', P7, 'cloc1', Move, 'cloc2');
+                Order(mUnit, P7, 'cloc1', Move, 'cloc2');
             }
         }
 

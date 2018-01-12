@@ -9,4 +9,3 @@ names = set(map(lambda x: x[0] + '.py', stagelists))
 for stage in os.listdir('stages'):
     if stage not in names:
         print('Unused stage : %s' % stage)
-
