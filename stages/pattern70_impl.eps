@@ -1,8 +1,12 @@
 import stages.ep_commonlib as cl;
 
 var iflag = 0;
+
 var t = 0;
-const dt = 18;
+const loopt = 13;
+
+var gangle = 0;
+const dangle = 15;
 
 function pattern70() {
     if (iflag == 0) {
@@ -36,21 +40,24 @@ function pattern70() {
             }
         }
     }
-    else if(t == dt) {
+    else if(t == loopt) {
         t = 0;
         for(var i = 0 ; i < 2 ; i++) {
             for(var j = 0 ; j < 5 ; j++) {
                 const x, y = 1 + i * 8, 1 + j * 2;
-                cl.mloc_tile($L('cloc1'), x, y, -16);
+                cl.mloc_tile($L('cloc1'), x, y, -40);
                 CreateUnit(1, "Small Slow Missile", "cloc1", P7);
                 const px, py = cl.getTilePos(x, y);
-                const angle = rand() % 360;
+                const angle = gangle + (36 * 7) * (i + j * 2);
                 const dx, dy = lengthdir(800, angle);
                 const dpx, dpy = cl.getInfiniteVectorEnd(px, py, dx, dy);
                 cl.mloc_px($L('cloc2'), dpx, dpy, 0);
                 Order('(men)', P7, 'cloc1', Move, 'cloc2');
             }
         }
+
+        gangle += dangle;
+        if(gangle >= 360) gangle -= 360;
     }
     t++;
 }

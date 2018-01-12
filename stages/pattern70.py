@@ -7,22 +7,6 @@ from eudplib import *
 from .ep_commonlib import *
 from .pattern70_impl import f_pattern70
 
-dt = 1
-mCount = 13
-
-xUnit = "@CustomVariable5"
-yUnit = "@CustomVariable6"
-
-
-def GetVStorage(i):
-    player = [P7, P8, P9, P10, P11][i % 5]
-    unit = [
-        "@CustomVariable1",
-        "@CustomVariable2",
-        "@CustomVariable3",
-    ][i // 5]
-    return player, unit
-
 
 stages_commonlib.InitNone()
 
