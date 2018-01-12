@@ -159,7 +159,7 @@ def f_getInfiniteVectorEnd(x, y, dx, dy):
         # (Line 51) else dsty = y + (dy * time / 2048);
     if EUDElse()():
         dsty << (y + (dy * time // 2048))
-        # (Line 52) return dstx, dsty;  // ì—¬ëŸ¬ê°œ ê°’ ë°˜í™˜ë„ ë˜ìš”!
+        # (Line 52) return dstx, dsty;  // ¿©·¯°³ °ª ¹ÝÈ¯µµ µÇ¿ä!
     EUDEndIf()
     EUDReturn(dstx, dsty)
     # (Line 53) }

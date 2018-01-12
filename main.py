@@ -12,9 +12,12 @@
 from runpy import run_module
 import condblock  # Import to initialized.
 from trggen import *
+import os
+import importlib
+import eudplib as ep
 
 import config
-from stages.stages_commonlib import SetStage
+from stages import stages_commonlib as cl
 import winsound
 
 # 스테이지들
@@ -34,6 +37,31 @@ else:
     stagelists = [stagelist_easy, stagelist_normal, stagelist_hard]
 
 
+def importModule(modname):
+    if not os.path.exists('stages/%s.eps' % modname):
+        run_module('stages.%s' % pdata[0])
+    else:
+        mod = importlib.import_module('stages.%s' % modname)
+        f_pattern = getattr(mod, "f_pattern")
+
+        cl.InitNone()
+
+        ####
+
+        cl.inline_eudplib(cl.P8, """\
+if EUDIf()([
+    Deaths(P8, Exactly, %d, "@PatternSelector"),
+    Deaths(P8, Exactly, %d, "@Difficulty"),
+    Deaths(P8, Exactly, 1, "@GameState"),
+]):
+    f_%s()
+EUDEndIf()
+        """ % (cl.stage, cl.difficulty, modname))
+
+        if 'f_%s' % modname not in ep.GetEUDNamespace():
+            ep.EUDRegisterObjectToNamespace('f_%s' % modname, f_pattern)
+
+
 LoadMap("basemap.scx")
 
 ##############################################################
@@ -49,8 +77,8 @@ config.diffn = len(stagelists)
 
 for diff, stagelist in enumerate(stagelists):
     for i, pdata in enumerate(stagelist):
-        SetStage(config.diffn, diff, i + 1, pdata[1])
-        run_module('stages.%s' % pdata[0])
+        cl.SetStage(config.diffn, diff, i + 1, pdata[1])
+        importModule(pdata[0])
 
     print('#Stages in diff %d : %d' % (diff, len(stagelist)))
 
