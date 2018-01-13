@@ -1,7 +1,6 @@
 stagelist_hard = [
     ('pattern01_var1',    '간단폭피'),
     ('pattern16',         '달려달려'),
-    ('pattern09_var4',    '좌향좌'),
     # ('pattern04',         '우향우'),
     # ('pattern11_var1',    '다다해악'),
     # ('pattern52_var2',    '추가패턴3'),

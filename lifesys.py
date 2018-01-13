@@ -39,6 +39,10 @@ Trigger(
     ],
     actions=[
         KillUnitAt(All, "Dodger", "ptrace", CurrentPlayer),
+        MoveLocation('mtrace', '(men)', Force2, 'ptrace'),
+        CreateUnit(1, "Protoss Shuttle", 'mtrace', P7),
+        GiveUnits(All, 'Protoss Shuttle', P7, 'Anywhere', P9),
+        KillUnit("Protoss Shuttle", P9),
         PreserveTrigger(),
     ],
 )
@@ -55,6 +59,9 @@ Trigger(
     ],
     actions=[
         KillUnitAt(All, "Bunker", "htrace", CurrentPlayer),
+        MoveLocation('mtrace', '(men)', Force2, 'htrace'),
+        CreateUnit(1, "Protoss Shuttle", 'mtrace', P7),
+        GiveUnits(All, 'Protoss Shuttle', P7, 'Anywhere', P9),
         PreserveTrigger(),
     ],
 )
@@ -72,6 +79,9 @@ Trigger(
     ],
     actions=[
         KillUnitAt(All, "Bunker", "htrace", CurrentPlayer),
+        MoveLocation('mtrace', '(men)', Force2, 'htrace'),
+        CreateUnit(1, "Protoss Shuttle", 'mtrace', P7),
+        GiveUnits(All, 'Protoss Shuttle', P7, 'Anywhere', P9),
         PreserveTrigger(),
     ],
 )
