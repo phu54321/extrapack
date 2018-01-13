@@ -77,7 +77,7 @@ Loop(10)
 
 # 느린 미사일 (배틀)
 
-dt = 30
+dt = 25
 dm = 2
 SelectCounter(1)
 for i in range(dm):

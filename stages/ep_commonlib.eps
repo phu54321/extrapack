@@ -51,3 +51,18 @@ function getInfiniteVectorEnd(x, y, dx, dy) {
     else dsty = y + (dy * time / 2048);
     return dstx, dsty;  // 여러개 값 반환도 되요!
 }
+
+function createWalls(_array) {
+    const array = EUDArray.cast(_array);
+    for(var y = 1 ; y <= 9 ; y++) {
+        const row = EUDArray.cast(array[y - 1]);
+        for(var x = 1 ; x <= 9 ; x++) {
+            if (row[x - 1]) {
+                mloc_tile($L('cloc1'), x, y, 0);
+                CreateUnit(1, 'Protoss Shuttle', 'cloc1', P7);
+                KillUnitAt(All, 'Protoss Shuttle', 'cloc1', P7);
+                CreateUnit(1, 'Block', 'cloc1', P7);
+            }
+        }
+    }
+}

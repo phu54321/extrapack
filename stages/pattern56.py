@@ -10,6 +10,7 @@ def cract(rottype, mtype, x, y):
         MoveMainloc(10 - y, x), CreateUnit(1, mtype, 'xymain', P8),
     ]
 
+
 mtups = [
     (1, 'Fast Missile', 1, 1),
     (1, 'Missile', 1, 2),
@@ -80,6 +81,7 @@ def odact(rottype, mtype, x, y):
                 Order(mtype, P8, 'cloc4', Move, 'cloc3'),
             ]
         )
+
 
 for mtup in mtups:
     odact(*mtup)

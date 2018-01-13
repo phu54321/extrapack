@@ -26,13 +26,13 @@ from stgl_nm import stagelist_normal
 from stgl_hd import stagelist_hard
 
 
-config.slowmode = False
+config.slowmode = True
 config.debugmode = True
 config.difficulty = 1
 config.initialstage = 1
 
 if config.debugmode:
-    stagelists = [[('pattern64', 'testing')] for _ in range(3)]
+    stagelists = [[('pattern56_var1', 'testing')] for _ in range(3)]
 else:
     stagelists = [stagelist_easy, stagelist_normal, stagelist_hard]
 

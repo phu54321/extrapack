@@ -163,3 +163,46 @@ def f_getInfiniteVectorEnd(x, y, dx, dy):
     EUDEndIf()
     EUDReturn(dstx, dsty)
     # (Line 53) }
+    # (Line 55) function createWalls(_array) {
+
+@EUDFunc
+def f_createWalls(_array):
+    # (Line 56) const array = EUDArray.cast(_array);
+    array = EUDArray.cast(_array)
+    # (Line 57) for(var y = 1 ; y <= 9 ; y++) {
+    y = EUDVariable()
+    y << (1)
+    if EUDWhile()(y <= 9):
+        def _t2():
+            y.__iadd__(1)
+        # (Line 58) const row = EUDArray.cast(array[y - 1]);
+        row = EUDArray.cast(array[y - 1])
+        # (Line 59) for(var x = 1 ; x <= 9 ; x++) {
+        x = EUDVariable()
+        x << (1)
+        if EUDWhile()(x <= 9):
+            def _t4():
+                x.__iadd__(1)
+            # (Line 60) if (row[x - 1]) {
+            if EUDIf()(row[x - 1]):
+                # (Line 61) mloc_tile($L('cloc1'), x, y, 0);
+                # (Line 62) CreateUnit(1, 'Protoss Shuttle', 'cloc1', P7);
+                f_mloc_tile(GetLocationIndex('cloc1'), x, y, 0)
+                # (Line 63) KillUnitAt(All, 'Protoss Shuttle', 'cloc1', P7);
+                # (Line 64) CreateUnit(1, 'Block', 'cloc1', P7);
+                # (Line 65) }
+                DoActions([
+                    CreateUnit(1, 'Protoss Shuttle', 'cloc1', P7),
+                    KillUnitAt(All, 'Protoss Shuttle', 'cloc1', P7),
+                    CreateUnit(1, 'Block', 'cloc1', P7)
+                ])
+                # (Line 66) }
+            EUDEndIf()
+            # (Line 67) }
+            EUDSetContinuePoint()
+            _t4()
+        EUDEndWhile()
+        # (Line 68) }
+        EUDSetContinuePoint()
+        _t2()
+    EUDEndWhile()
