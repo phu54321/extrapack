@@ -22,6 +22,7 @@ stagelist_hard = [
     ('pattern64',         '시정지'),
     # ('pattern14',         '반칸교대'),
     ('pattern22_var1',    '느림의 미학'),
+    ('pattern71',         '돌피하기'),
     ('pattern63',         '각설이또옴'),
     ('pattern17',         '천천히'),
     ('pattern63_var2',    '사구체'),

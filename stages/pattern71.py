@@ -4,6 +4,8 @@ from trggen import *
 from .stages_commonlib import *
 
 
+dt = 21
+
 InitWalls([
     ' ########',
     '         ',
@@ -41,7 +43,7 @@ Shoot(0, [
     CreateUnit(1, 'Small Slow Missile', 'r6', P8),
     CreateUnit(1, 'Small Slow Missile', 'r8', P8),
 ])
-Shoot(18, [
+Shoot(dt, [
     CreateUnit(1, 'Small Slow Missile', 'l1', P7),
     CreateUnit(1, 'Small Slow Missile', 'l3', P7),
     CreateUnit(1, 'Small Slow Missile', 'l5', P7),
@@ -52,4 +54,4 @@ Shoot(18, [
     CreateUnit(1, 'Heavy Missile', 'r6', P8),
     CreateUnit(1, 'Heavy Missile', 'r8', P8),
 ])
-Loop(36)
+Loop(dt * 2)
