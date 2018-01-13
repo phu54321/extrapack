@@ -19,7 +19,7 @@ stagelist_hard = [
     # ('pattern05',         '귀소본능'),
     ('pattern54',         '교차지점'),
     ('pattern32',         '융단폭격'),
-    # ('pattern64',         '시정지'),
+    ('pattern64',         '시정지'),
     # ('pattern14',         '반칸교대'),
     ('pattern22_var1',    '느림의 미학'),
     ('pattern63',         '각설이또옴'),

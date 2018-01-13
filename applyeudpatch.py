@@ -281,8 +281,15 @@ def main():
         EUDEndIf()
 
         # 통과속성 다시 활성화
-        unitptr, unitepd = f_dwepdread_epd(EPD(0x628430))
-        if EUDWhileNot()(unitptr == 0):
+        unitepd = EUDVariable()
+        unitepd << EPD(0x59CCA8)
+        if EUDWhile()(unitepd <= EPD(0x59CCA8) + 336 // 4 * 1699):
+            # 존재하지 않는 유닛은 특수처리
+            if EUDIf()(MemoryEPD(unitepd + 0xC // 4, Exactly, 0)):
+                DoActions(SetMemoryEPD(unitepd + 0x64 // 4, SetTo, 0))
+                EUDContinue()
+            EUDEndIf()
+
             # 통과속성 적용 안할 유닛들 제외
             unitType = f_dwread_epd(unitepd + 0x64 // 4)
             EUDContinueIf(unitType == EncodeUnit('Block'))
@@ -312,9 +319,9 @@ def main():
             if EUDIf()(c == 1):
                 oldTopSpeed = f_dwread_epd(unitepd + 0x34 // 4)
                 Trigger(
-                    oldTopSpeed != 60,
+                    oldTopSpeed != 100,
                     [
-                        SetMemoryEPD(unitepd + 0x34 // 4, SetTo, 60),
+                        SetMemoryEPD(unitepd + 0x34 // 4, SetTo, 100),
                         SetMemoryEPD(unitepd + 0x64 // 4, Add, 65536 * oldTopSpeed),
                     ]
                 )
@@ -330,7 +337,7 @@ def main():
             EUDEndIf()
 
             EUDSetContinuePoint()
-            SetVariables([unitptr, unitepd], f_dwepdread_epd(unitepd + 4 // 4))
+            unitepd += 336 // 4
         EUDEndWhile()
 
         #
