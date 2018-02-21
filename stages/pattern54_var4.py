@@ -1,4 +1,4 @@
-# 배틀 + 스카웃계단
+# 배틀 + 배틀계단
 
 from trggen import *
 from .stages_commonlib import *
@@ -17,7 +17,7 @@ InitNormalMissileMove([
 
 # 느린 미사일 (배틀)
 
-dt = 25
+dt = 27
 dm = 3
 SelectCounter(0)
 for i in range(dm):

@@ -1,1 +1,0 @@
-type f1 | dot -Tpng -o output1.png

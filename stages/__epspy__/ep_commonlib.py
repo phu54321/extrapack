@@ -32,8 +32,37 @@ class _ATTW:
     def __init__(self, obj, attrName):
         self.obj = obj
         self.attrName = attrName
+
     def __lshift__(self, r):
         setattr(self.obj, self.attrName, r)
+
+    def __iadd__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov + v)
+
+    def __isub__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov - v)
+
+    def __imul__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov * v)
+
+    def __idiv__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov / v)
+
+    def __iand__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov & v)
+
+    def __ior__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov | v)
+
+    def __ixor__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov ^ v)
 
 class _ARRW:
      def __init__(self, obj, index):
@@ -86,123 +115,132 @@ def f_mloc_px(locid, x0, y0, size):
         # (Line 12) size /= 2;
         size.__ifloordiv__(2)
         # (Line 13) }
-        # (Line 14) SetMemory(0x58DC60 + 20 * locid + 0x00, SetTo, x0 - size);
+        # (Line 14) SetMemoryEPD(EPD(0x58DC60) + 5 * locid + 0, SetTo, x0 - size);
     EUDEndIf()
-    # (Line 15) SetMemory(0x58DC60 + 20 * locid + 0x04, SetTo, y0 - size);
-    # (Line 16) SetMemory(0x58DC60 + 20 * locid + 0x08, SetTo, x0 + size);
-    # (Line 17) SetMemory(0x58DC60 + 20 * locid + 0x0C, SetTo, y0 + size);
+    DoActions(SetMemoryEPD(EPD(0x58DC60) + 5 * locid + 0, SetTo, x0 - size))
+    # (Line 15) SetMemoryEPD(EPD(0x58DC60) + 5 * locid + 1, SetTo, y0 - size);
+    DoActions(SetMemoryEPD(EPD(0x58DC60) + 5 * locid + 1, SetTo, y0 - size))
+    # (Line 16) SetMemoryEPD(EPD(0x58DC60) + 5 * locid + 2, SetTo, x0 + size);
+    DoActions(SetMemoryEPD(EPD(0x58DC60) + 5 * locid + 2, SetTo, x0 + size))
+    # (Line 17) SetMemoryEPD(EPD(0x58DC60) + 5 * locid + 3, SetTo, y0 + size);
+    DoActions(SetMemoryEPD(EPD(0x58DC60) + 5 * locid + 3, SetTo, y0 + size))
     # (Line 18) }
-    DoActions([
-        SetMemory(0x58DC60 + 20 * locid + 0x00, SetTo, x0 - size),
-        SetMemory(0x58DC60 + 20 * locid + 0x04, SetTo, y0 - size),
-        SetMemory(0x58DC60 + 20 * locid + 0x08, SetTo, x0 + size),
-        SetMemory(0x58DC60 + 20 * locid + 0x0C, SetTo, y0 + size)
-    ])
-    # (Line 20) function mloc_tile(locid, x, y, size) {
+    # (Line 20) function mloc_wh(locId, x, y, w, h) {
+
+@EUDFunc
+def f_mloc_wh(locId, x, y, w, h):
+    # (Line 21) SetMemoryEPD(EPD(0x58DC60) + 5 * locId + 0, SetTo, x);
+    DoActions(SetMemoryEPD(EPD(0x58DC60) + 5 * locId + 0, SetTo, x))
+    # (Line 22) SetMemoryEPD(EPD(0x58DC60) + 5 * locId + 1, SetTo, y);
+    DoActions(SetMemoryEPD(EPD(0x58DC60) + 5 * locId + 1, SetTo, y))
+    # (Line 23) SetMemoryEPD(EPD(0x58DC60) + 5 * locId + 2, SetTo, x + w);
+    DoActions(SetMemoryEPD(EPD(0x58DC60) + 5 * locId + 2, SetTo, x + w))
+    # (Line 24) SetMemoryEPD(EPD(0x58DC60) + 5 * locId + 3, SetTo, y + h);
+    DoActions(SetMemoryEPD(EPD(0x58DC60) + 5 * locId + 3, SetTo, y + h))
+    # (Line 25) }
+    # (Line 27) function mloc_tile(locid, x, y, size) {
 
 @EUDFunc
 def f_mloc_tile(locid, x, y, size):
-    # (Line 21) const x0, y0 = getTilePos(x, y);
+    # (Line 28) const x0, y0 = getTilePos(x, y);
     x0, y0 = List2Assignable([f_getTilePos(x, y)])
-    # (Line 22) mloc_px(locid, x0, y0, size);
-    # (Line 23) }
+    # (Line 29) mloc_px(locid, x0, y0, size);
     f_mloc_px(locid, x0, y0, size)
-    # (Line 29) function getInfiniteVectorEnd(x, y, dx, dy) {
+    # (Line 30) }
+    # (Line 36) function getInfiniteVectorEnd(x, y, dx, dy) {
 
 @EUDFunc
 def f_getInfiniteVectorEnd(x, y, dx, dy):
-    # (Line 30) const mapSize = 32 * 64;
+    # (Line 37) const mapSize = 32 * 64;
     mapSize = 32 * 64
-    # (Line 33) var timeX, timeY;
+    # (Line 40) var timeX, timeY;
     timeX, timeY = EUDCreateVariables(2)
-    # (Line 34) if(dx >= 0x80000000) timeX = 2048 * x / -dx;
+    # (Line 41) if(dx >= 0x80000000) timeX = 2048 * x / -dx;
     if EUDIf()(dx >= 0x80000000):
         timeX << (2048 * x // -dx)
-        # (Line 35) else timeX = 2048 * (mapSize - x) / dx;
+        # (Line 42) else timeX = 2048 * (mapSize - x) / dx;
     if EUDElse()():
         timeX << (2048 * (mapSize - x) // dx)
-        # (Line 36) if(dy >= 0x80000000) timeY = 2048 * y / -dy;
+        # (Line 43) if(dy >= 0x80000000) timeY = 2048 * y / -dy;
     EUDEndIf()
     if EUDIf()(dy >= 0x80000000):
         timeY << (2048 * y // -dy)
-        # (Line 37) else timeY = 2048 * (mapSize - y) / dy;
+        # (Line 44) else timeY = 2048 * (mapSize - y) / dy;
     if EUDElse()():
         timeY << (2048 * (mapSize - y) // dy)
-        # (Line 40) var time;  // min(timeX, timeY)
+        # (Line 47) var time;  // min(timeX, timeY)
     EUDEndIf()
     time = EUDVariable()
-    # (Line 41) if(dx == 0) time = timeY;
+    # (Line 48) if(dx == 0) time = timeY;
     if EUDIf()(dx == 0):
         time << (timeY)
-        # (Line 42) else if(dy == 0) time = timeX;
+        # (Line 49) else if(dy == 0) time = timeX;
     if EUDElseIf()(dy == 0):
         time << (timeX)
-        # (Line 43) else if(timeX <= timeY) time = timeX;
+        # (Line 50) else if(timeX <= timeY) time = timeX;
     if EUDElseIf()(timeX <= timeY):
         time << (timeX)
-        # (Line 44) else time = timeY;
+        # (Line 51) else time = timeY;
     if EUDElse()():
         time << (timeY)
-        # (Line 47) var dstx, dsty;
+        # (Line 54) var dstx, dsty;
     EUDEndIf()
     dstx, dsty = EUDCreateVariables(2)
-    # (Line 48) if(dx >= 0x80000000) dstx = x - (-dx * time / 2048);
+    # (Line 55) if(dx >= 0x80000000) dstx = x - (-dx * time / 2048);
     if EUDIf()(dx >= 0x80000000):
         dstx << (x - (-dx * time // 2048))
-        # (Line 49) else dstx = x + (dx * time / 2048);
+        # (Line 56) else dstx = x + (dx * time / 2048);
     if EUDElse()():
         dstx << (x + (dx * time // 2048))
-        # (Line 50) if(dy >= 0x80000000) dsty = y - (-dy * time / 2048);
+        # (Line 57) if(dy >= 0x80000000) dsty = y - (-dy * time / 2048);
     EUDEndIf()
     if EUDIf()(dy >= 0x80000000):
         dsty << (y - (-dy * time // 2048))
-        # (Line 51) else dsty = y + (dy * time / 2048);
+        # (Line 58) else dsty = y + (dy * time / 2048);
     if EUDElse()():
         dsty << (y + (dy * time // 2048))
-        # (Line 52) return dstx, dsty;  // ¿©·¯°³ °ª ¹ÝÈ¯µµ µÇ¿ä!
+        # (Line 59) return dstx, dsty;  // ì—¬ëŸ¬ê°œ ê°’ ë°˜í™˜ë„ ë˜ìš”!
     EUDEndIf()
     EUDReturn(dstx, dsty)
-    # (Line 53) }
-    # (Line 55) function createWalls(_array) {
+    # (Line 60) }
+    # (Line 62) function createWalls(_array) {
 
 @EUDFunc
 def f_createWalls(_array):
-    # (Line 56) const array = EUDArray.cast(_array);
+    # (Line 63) const array = EUDArray.cast(_array);
     array = EUDArray.cast(_array)
-    # (Line 57) for(var y = 1 ; y <= 9 ; y++) {
+    # (Line 64) for(var y = 1 ; y <= 9 ; y++) {
     y = EUDVariable()
     y << (1)
     if EUDWhile()(y <= 9):
         def _t2():
             y.__iadd__(1)
-        # (Line 58) const row = EUDArray.cast(array[y - 1]);
+        # (Line 65) const row = EUDArray.cast(array[y - 1]);
         row = EUDArray.cast(array[y - 1])
-        # (Line 59) for(var x = 1 ; x <= 9 ; x++) {
+        # (Line 66) for(var x = 1 ; x <= 9 ; x++) {
         x = EUDVariable()
         x << (1)
         if EUDWhile()(x <= 9):
             def _t4():
                 x.__iadd__(1)
-            # (Line 60) if (row[x - 1]) {
+            # (Line 67) if (row[x - 1]) {
             if EUDIf()(row[x - 1]):
-                # (Line 61) mloc_tile($L('cloc1'), x, y, 0);
-                # (Line 62) CreateUnit(1, 'Protoss Shuttle', 'cloc1', P7);
+                # (Line 68) mloc_tile($L('cloc1'), x, y, 0);
                 f_mloc_tile(GetLocationIndex('cloc1'), x, y, 0)
-                # (Line 63) KillUnitAt(All, 'Protoss Shuttle', 'cloc1', P7);
-                # (Line 64) CreateUnit(1, 'Block', 'cloc1', P7);
-                # (Line 65) }
-                DoActions([
-                    CreateUnit(1, 'Protoss Shuttle', 'cloc1', P7),
-                    KillUnitAt(All, 'Protoss Shuttle', 'cloc1', P7),
-                    CreateUnit(1, 'Block', 'cloc1', P7)
-                ])
-                # (Line 66) }
+                # (Line 69) CreateUnit(1, 'Protoss Shuttle', 'cloc1', P7);
+                DoActions(CreateUnit(1, 'Protoss Shuttle', 'cloc1', P7))
+                # (Line 70) KillUnitAt(All, 'Protoss Shuttle', 'cloc1', P7);
+                DoActions(KillUnitAt(All, 'Protoss Shuttle', 'cloc1', P7))
+                # (Line 71) CreateUnit(1, 'Block', 'cloc1', P7);
+                DoActions(CreateUnit(1, 'Block', 'cloc1', P7))
+                # (Line 72) }
+                # (Line 73) }
             EUDEndIf()
-            # (Line 67) }
+            # (Line 74) }
             EUDSetContinuePoint()
             _t4()
         EUDEndWhile()
-        # (Line 68) }
+        # (Line 75) }
         EUDSetContinuePoint()
         _t2()
     EUDEndWhile()

@@ -10,7 +10,6 @@
 #####
 
 from runpy import run_module
-import condblock  # Import to initialized.
 from trggen import *
 import os
 import importlib
@@ -18,7 +17,6 @@ import eudplib as ep
 
 import config
 from stages import stages_commonlib as cl
-import winsound
 
 # 스테이지들
 from stgl_ez import stagelist_easy
@@ -26,13 +24,14 @@ from stgl_nm import stagelist_normal
 from stgl_hd import stagelist_hard
 
 
-config.slowmode = True
+config.slowmode = False
 config.debugmode = True
 config.difficulty = 1
 config.initialstage = 1
 
+# pattern54_var4
 if config.debugmode:
-    stagelists = [[('pattern71', 'testing')] for _ in range(3)]
+    stagelists = [[('pattern54_var4', 'testing')] for _ in range(3)]
 else:
     stagelists = [stagelist_easy, stagelist_normal, stagelist_hard]
 
@@ -97,4 +96,9 @@ SaveMap("temp.scx")
 
 run_module('applyeudpatch')
 
-winsound.MessageBeep()
+
+try:
+    import winsound
+    winsound.MessageBeep()
+except ImportError:
+    pass

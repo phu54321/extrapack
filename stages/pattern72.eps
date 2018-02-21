@@ -1,0 +1,55 @@
+import stages.ep_commonlib as cl;
+
+var t = 0;
+const dt = 8;
+
+function sendRow(unit: TrgUnit) {
+    CreateUnit(1, unit, "u1", P7);
+    CreateUnit(1, unit, "u2", P7);
+    CreateUnit(1, unit, "u3", P7);
+    CreateUnit(1, unit, "u4", P7);
+    CreateUnit(1, unit, "u5", P7);
+    CreateUnit(1, unit, "u6", P7);
+    CreateUnit(1, unit, "u7", P7);
+    CreateUnit(1, unit, "u8", P7);
+    CreateUnit(1, unit, "u9", P7);
+
+}
+function pattern() {
+    once {
+        sendRow('Heavy Missile');
+        SetSwitch('NormalMissileMove', Set);
+    }
+
+    foreach(ptr, epd : EUDLoopUnit()) {
+        const unitType = wread_epd(epd + 0x64 / 4, 0);
+        if(unitType == $U('Fast Missile')) {
+            const posX, posY = dwbreak(dwread_epd(epd + 0x28 / 4))[[0, 1]];
+            cl.mloc_px($L('cloc1'), posX, posY, 100);
+            MoveLocation('cloc1', 'Map Revealer', P12, 'cloc1');
+            const topSpeed =
+                Bring(Force1, AtLeast, 1, 'Dodger', 'cloc1')
+                ? 30 : 1800;
+            SetMemoryEPD(epd + 0x34 / 4, SetTo, topSpeed);
+        }
+    }
+    KillUnit('Protoss Shuttle', P7);
+    KillUnit('Protoss Observer', P7);
+
+    t++;
+
+    if(t == dt * 1) CreateUnit(1, 'Fast Missile', 'r1', P8);
+    if(t == dt * 2) CreateUnit(1, 'Fast Missile', 'r2', P8);
+    if(t == dt * 3) CreateUnit(1, 'Fast Missile', 'r3', P8);
+    if(t == dt * 4) CreateUnit(1, 'Fast Missile', 'r4', P8);
+    if(t == dt * 5) CreateUnit(1, 'Fast Missile', 'r5', P8);
+    if(t == dt * 6) CreateUnit(1, 'Fast Missile', 'r6', P8);
+    if(t == dt * 7) CreateUnit(1, 'Fast Missile', 'r7', P8);
+    if(t == dt * 8) CreateUnit(1, 'Fast Missile', 'r8', P8);
+    if(t == dt * 9) CreateUnit(1, 'Fast Missile', 'r9', P8);
+
+    if(t == dt * 9) {
+        t = 0;
+        sendRow('Fast Missile');
+    }
+}

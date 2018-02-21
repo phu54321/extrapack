@@ -7,7 +7,7 @@ stagelist_hard = [
     ('pattern49',         '자전'),
     # ('pattern37_var2',    '큰배사이로'),  → Modify
     ('pattern02',         '미꾸라지'),
-    ('pattern37_var1',    '지그재그길'),
+    ('pattern37_var1',    '지그재그길'),  # 매트릭스 쉬운버젼
     # ('pattern06_var2',    '파일런길막기'),
     # ('pattern58',         '불협화음'),
     # ('pattern66',         '빙글빙글'),
@@ -17,7 +17,7 @@ stagelist_hard = [
     # ('pattern54_var1',    '랜덤교차지점'),
     ('pattern65',         '비트섬'),
     # ('pattern05',         '귀소본능'),
-    ('pattern54_var2',         '교차지점'),
+    ('pattern54_var4',    '교차지점'),  # 위와 오른쪽에서 배틀 스테이지
     ('pattern32',         '융단폭격'),
     ('pattern64',         '시정지'),
     # ('pattern14',         '반칸교대'),

@@ -64,74 +64,65 @@ def _LSH(l, r):
 
 # (Line 3) import stages.ep_commonlib as cl;
 from stages import ep_commonlib as cl
-# (Line 5) var iflag = 0;
-iflag = EUDCreateVariables(1)
-_IGVA([iflag], lambda: [0])
-# (Line 6) var angle = 0;
+# (Line 5) var angle = 0;
 angle = EUDCreateVariables(1)
 _IGVA([angle], lambda: [0])
-# (Line 7) var t = 0;
+# (Line 6) var t = 0;
 t = EUDCreateVariables(1)
 _IGVA([t], lambda: [0])
-# (Line 8) const dt = 1;
+# (Line 7) const dt = 1;
 dt = _CGFW(lambda: [1], 1)[0]
-# (Line 10) var subt = 0;
+# (Line 9) var subt = 0;
 subt = EUDCreateVariables(1)
 _IGVA([subt], lambda: [0])
-# (Line 12) function pattern() {
+# (Line 11) function pattern() {
 @EUDFunc
 def f_pattern():
-    # (Line 13) if (iflag == 0) {
-    if EUDIf()(iflag == 0):
-        # (Line 15) iflag = 1;
-        iflag << (1)
-        # (Line 16) }
-        # (Line 18) subt++;
-    EUDEndIf()
+    # (Line 12) subt++;
     subt.__iadd__(1)
-    # (Line 19) if(subt == 2) {
+    # (Line 13) if(subt == 2) {
     if EUDIf()(subt == 2):
-        # (Line 20) subt = 0;
+        # (Line 14) subt = 0;
         subt << (0)
-        # (Line 22) const cx, cy = cl.getTilePos(2, 2);
+        # (Line 16) const cx, cy = cl.getTilePos(2, 2);
         cx, cy = List2Assignable([cl.f_getTilePos(2, 2)])
-        # (Line 23) for(var i = 0 ; i < 4 ; i++) {
+        # (Line 17) for(var i = 0 ; i < 4 ; i++) {
         i = EUDVariable()
         i << (0)
         if EUDWhile()(i < 4):
-            def _t4():
+            def _t3():
                 i.__iadd__(1)
-            # (Line 24) const a = angle + i * 90;
+            # (Line 18) const a = angle + i * 90;
             a = angle + i * 90
-            # (Line 25) const cdx, cdy = lengthdir(50, a);
+            # (Line 19) const cdx, cdy = lengthdir(50, a);
             cdx, cdy = List2Assignable([f_lengthdir(50, a)])
-            # (Line 26) cl.mloc_px($L('cloc1'), cdx + cx, cdy + cy, -22);
-            # (Line 27) const dx1, dy1 = lengthdir(600, a);
+            # (Line 20) cl.mloc_px($L('cloc1'), cdx + cx, cdy + cy, -22);
+            # (Line 21) const dx1, dy1 = lengthdir(600, a);
             cl.f_mloc_px(GetLocationIndex('cloc1'), cdx + cx, cdy + cy, -22)
             dx1, dy1 = List2Assignable([f_lengthdir(600, a)])
-            # (Line 28) const ddx, ddy = cl.getInfiniteVectorEnd(cx, cy, dx1, dy1);
+            # (Line 22) const ddx, ddy = cl.getInfiniteVectorEnd(cx, cy, dx1, dy1);
             ddx, ddy = List2Assignable([cl.f_getInfiniteVectorEnd(cx, cy, dx1, dy1)])
-            # (Line 29) cl.mloc_px($L('cloc2'), ddx, ddy, 0);
-            # (Line 30) CreateUnit(1, 'Small Missile', 'cloc1', P7);
+            # (Line 23) cl.mloc_px($L('cloc2'), ddx, ddy, 0);
+            # (Line 24) CreateUnit(1, 'Small Missile', 'cloc1', P7);
             cl.f_mloc_px(GetLocationIndex('cloc2'), ddx, ddy, 0)
-            # (Line 31) Order('Small Missile', P7, 'cloc1', Move, 'cloc2');
-            # (Line 32) }
+            # (Line 25) Order('Small Missile', P7, 'cloc1', Move, 'cloc2');
+            # (Line 26) }
             DoActions([
                 CreateUnit(1, 'Small Missile', 'cloc1', P7),
                 Order('Small Missile', P7, 'cloc1', Move, 'cloc2')
             ])
-            # (Line 33) cl.mloc_px($L('cloc1'), cx, cy, 0);
+            # (Line 27) cl.mloc_px($L('cloc1'), cx, cy, 0);
             EUDSetContinuePoint()
-            _t4()
+            _t3()
         EUDEndWhile()
-        # (Line 34) CreateUnit(1, "Flare", 'cloc1', P7);
+        # (Line 28) CreateUnit(1, "Flare", 'cloc1', P7);
         cl.f_mloc_px(GetLocationIndex('cloc1'), cx, cy, 0)
-        # (Line 35) KillUnitAt(All, 'Flare', 'Anywhere', P7);
-        # (Line 37) KillUnitAt(All, 'Small Missile', 'u', P7);
-        # (Line 38) KillUnitAt(All, 'Small Missile', 'l', P7);
-        # (Line 39) KillUnitAt(All, 'Small Missile', 'd', P7);
-        # (Line 40) KillUnitAt(All, 'Small Missile', 'r', P7);
-        # (Line 42) angle = (angle + t) % 360;
+        # (Line 29) KillUnitAt(All, 'Flare', 'Anywhere', P7);
+        # (Line 31) KillUnitAt(All, 'Small Missile', 'u', P7);
+        # (Line 32) KillUnitAt(All, 'Small Missile', 'l', P7);
+        # (Line 33) KillUnitAt(All, 'Small Missile', 'd', P7);
+        # (Line 34) KillUnitAt(All, 'Small Missile', 'r', P7);
+        # (Line 36) angle = (angle + t) % 360;
         DoActions([
             CreateUnit(1, "Flare", 'cloc1', P7),
             KillUnitAt(All, 'Flare', 'Anywhere', P7),
@@ -141,12 +132,12 @@ def f_pattern():
             KillUnitAt(All, 'Small Missile', 'r', P7)
         ])
         angle << ((angle + t) % 360)
-        # (Line 43) t += dt;
+        # (Line 37) t += dt;
         t.__iadd__(dt)
-        # (Line 44) if (t >= 360) t -= 360;
+        # (Line 38) if (t >= 360) t -= 360;
         if EUDIf()(t >= 360):
             t.__isub__(360)
-            # (Line 45) }
+            # (Line 39) }
         EUDEndIf()
-        # (Line 46) }
+        # (Line 40) }
     EUDEndIf()

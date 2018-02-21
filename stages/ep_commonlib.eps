@@ -11,10 +11,17 @@ function mloc_px(locid, x0, y0, size) {
     else {
         size /= 2;
     }
-    SetMemory(0x58DC60 + 20 * locid + 0x00, SetTo, x0 - size);
-    SetMemory(0x58DC60 + 20 * locid + 0x04, SetTo, y0 - size);
-    SetMemory(0x58DC60 + 20 * locid + 0x08, SetTo, x0 + size);
-    SetMemory(0x58DC60 + 20 * locid + 0x0C, SetTo, y0 + size);
+    SetMemoryEPD(EPD(0x58DC60) + 5 * locid + 0, SetTo, x0 - size);
+    SetMemoryEPD(EPD(0x58DC60) + 5 * locid + 1, SetTo, y0 - size);
+    SetMemoryEPD(EPD(0x58DC60) + 5 * locid + 2, SetTo, x0 + size);
+    SetMemoryEPD(EPD(0x58DC60) + 5 * locid + 3, SetTo, y0 + size);
+}
+
+function mloc_wh(locId, x, y, w, h) {
+    SetMemoryEPD(EPD(0x58DC60) + 5 * locId + 0, SetTo, x);
+    SetMemoryEPD(EPD(0x58DC60) + 5 * locId + 1, SetTo, y);
+    SetMemoryEPD(EPD(0x58DC60) + 5 * locId + 2, SetTo, x + w);
+    SetMemoryEPD(EPD(0x58DC60) + 5 * locId + 3, SetTo, y + h);
 }
 
 function mloc_tile(locid, x, y, size) {

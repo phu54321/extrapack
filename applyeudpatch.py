@@ -3,7 +3,6 @@ from loadcode import checkcode
 from timer import (
     f_istimerhit,
     f_starttimer,
-    f_tick
 )
 from stages.stages_commonlib import patternname_list
 import config
@@ -47,8 +46,6 @@ userpl = EUDVariable()
 
 @EUDFunc
 def main():
-    f_initextstr()
-
     if EUDIf()(Memory(0x57F0B4, Exactly, 0)):
         DoActions([
             [
@@ -191,7 +188,6 @@ def main():
     userpl << f_getuserplayerid()
 
     if EUDInfLoop()():
-        f_tick()
         f_bgmloop()
         RunTrigTrigger()
 
