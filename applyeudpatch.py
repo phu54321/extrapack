@@ -479,6 +479,15 @@ def victorytext():
 
 
 LoadMap('temp.scx')
+
+chkt = GetChkTokenized()
+mtxm = bytearray(chkt.getsection('MTXM'))
+for i in range(64 * 64):
+    oldTile = b2i2(mtxm, i * 2)
+    if oldTile == 0:
+        mtxm[i * 2: i * 2 + 2] = b'\x01\x00'
+chkt.setsection('MTXM', mtxm)
+
 CompressPayload(True)
 SaveMap(f'Missile pack [ext] {config.version}.scx', main)
 os.remove('temp.scx')

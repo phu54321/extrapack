@@ -253,4 +253,4 @@ dist
 .yarn/build-state.yml
 .pnp.*
 
-.tmp
+*.tmp
