@@ -55,7 +55,7 @@ EUDEndIf()
             ep.EUDRegisterObjectToNamespace('f_%s' % modname, f_pattern)
 
 
-LoadMap("basemap.scx")
+LoadMap("res/basemap.scx")
 
 ##############################################################
 
@@ -90,7 +90,14 @@ SaveMap("temp.scx")
 
 run_module('applyeudpatch')
 
+# Cleanup .tmp files
+for path in os.listdir('.'):
+    if path.endswith('.tmp'):
+        os.unlink(path)
+    if path.endswith('.scx'):
+        os.replace(path, os.path.join('dist', path))
 
+# OK
 try:
     import winsound
     winsound.MessageBeep()

@@ -90,7 +90,7 @@ def main():
         SetVariables([difficulty, initialstage], checkcode())
         MPQAddFile(
             "staredit\\wav\\bgmmono.ogg",
-            open("bgmmono.ogg", "rb").read()
+            open("res/bgmmono.ogg", "rb").read()
         )
     else:
         difficulty << config.difficulty
