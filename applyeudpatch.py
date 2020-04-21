@@ -72,10 +72,10 @@ def main():
             [
                 SetCurrentPlayer(player),
                 # MuteUnitSpeech(),
-                DisplayText(SCMD2Text('''\
-    <13><0F><04>Missile pack <02>[Extra]<04>
+                DisplayText(SCMD2Text(f'''\
+    <13><0F><04>Missile pack <02>[Extra] <0f>{config.version}
 
-    <13><05>Created by cpy3001
+    <13><05>트리거왕 제작
 
     ''')),
             ] for player in range(6)])
