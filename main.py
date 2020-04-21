@@ -23,12 +23,6 @@ from stgl_ez import stagelist_easy
 from stgl_nm import stagelist_normal
 from stgl_hd import stagelist_hard
 
-
-config.slowmode = False
-config.debugmode = True
-config.difficulty = 1
-config.initialstage = 1
-
 # pattern54_var4
 if config.debugmode:
     stagelists = [[('pattern54_var4', 'testing')] for _ in range(3)]

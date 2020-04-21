@@ -32,15 +32,73 @@ class _ATTW:
     def __init__(self, obj, attrName):
         self.obj = obj
         self.attrName = attrName
+
     def __lshift__(self, r):
         setattr(self.obj, self.attrName, r)
 
+    def __iadd__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov + v)
+
+    def __isub__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov - v)
+
+    def __imul__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov * v)
+
+    def __ifloordiv__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov // v)
+
+    def __iand__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov & v)
+
+    def __ior__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov | v)
+
+    def __ixor__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov ^ v)
+
 class _ARRW:
-     def __init__(self, obj, index):
-         self.obj = obj
-         self.index = index
-     def __lshift__(self, r):
-         self.obj[self.index] = r
+    def __init__(self, obj, index):
+        self.obj = obj
+        self.index = index
+
+    def __lshift__(self, r):
+        self.obj[self.index] = r
+
+    def __iadd__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov + v
+
+    def __isub__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov - v
+
+    def __imul__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov * v
+
+    def __ifloordiv__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov // v
+
+    def __iand__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov & v
+
+    def __ior__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov | v
+
+    def __ixor__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov ^ v
 
 def _L2V(l):
     ret = EUDVariable()
@@ -85,73 +143,69 @@ def f_pattern():
     # (Line 13) if (iflag == 0) {
     if EUDIf()(iflag == 0):
         # (Line 14) CreateUnit(25, "Recaller", "arbiter", P8);
+        DoActions(CreateUnit(25, "Recaller", "arbiter", P8))
         # (Line 16) CreateUnit(1, "Small Slow Heavy Missile", "u3", P8);
+        DoActions(CreateUnit(1, "Small Slow Heavy Missile", "u3", P8))
         # (Line 17) CreateUnit(1, "Small Slow Heavy Missile", "u4", P8);
+        DoActions(CreateUnit(1, "Small Slow Heavy Missile", "u4", P8))
         # (Line 18) CreateUnit(1, "Small Slow Heavy Missile", "u5", P8);
+        DoActions(CreateUnit(1, "Small Slow Heavy Missile", "u5", P8))
         # (Line 19) CreateUnit(1, "Small Slow Heavy Missile", "u6", P8);
+        DoActions(CreateUnit(1, "Small Slow Heavy Missile", "u6", P8))
         # (Line 20) CreateUnit(1, "Small Slow Heavy Missile", "u7", P8);
+        DoActions(CreateUnit(1, "Small Slow Heavy Missile", "u7", P8))
         # (Line 21) Order("(men)", P8, "u3", Move, "d3");
+        DoActions(Order("(men)", P8, "u3", Move, "d3"))
         # (Line 22) Order("(men)", P8, "u4", Move, "d4");
+        DoActions(Order("(men)", P8, "u4", Move, "d4"))
         # (Line 23) Order("(men)", P8, "u5", Move, "d5");
+        DoActions(Order("(men)", P8, "u5", Move, "d5"))
         # (Line 24) Order("(men)", P8, "u6", Move, "d6");
+        DoActions(Order("(men)", P8, "u6", Move, "d6"))
         # (Line 25) Order("(men)", P8, "u7", Move, "d7");
+        DoActions(Order("(men)", P8, "u7", Move, "d7"))
         # (Line 26) iflag = 1;
-        DoActions([
-            CreateUnit(25, "Recaller", "arbiter", P8),
-            CreateUnit(1, "Small Slow Heavy Missile", "u3", P8),
-            CreateUnit(1, "Small Slow Heavy Missile", "u4", P8),
-            CreateUnit(1, "Small Slow Heavy Missile", "u5", P8),
-            CreateUnit(1, "Small Slow Heavy Missile", "u6", P8),
-            CreateUnit(1, "Small Slow Heavy Missile", "u7", P8),
-            Order("(men)", P8, "u3", Move, "d3"),
-            Order("(men)", P8, "u4", Move, "d4"),
-            Order("(men)", P8, "u5", Move, "d5"),
-            Order("(men)", P8, "u6", Move, "d6"),
-            Order("(men)", P8, "u7", Move, "d7")
-        ])
         iflag << (1)
         # (Line 27) }
         # (Line 29) KillUnitAt(All, mUnit, 'u', Force2);
     EUDEndIf()
+    DoActions(KillUnitAt(All, mUnit, 'u', Force2))
     # (Line 30) KillUnitAt(All, mUnit, 'd', Force2);
+    DoActions(KillUnitAt(All, mUnit, 'd', Force2))
     # (Line 31) KillUnitAt(All, mUnit, 'l', Force2);
+    DoActions(KillUnitAt(All, mUnit, 'l', Force2))
     # (Line 32) KillUnitAt(All, mUnit, 'r', Force2);
+    DoActions(KillUnitAt(All, mUnit, 'r', Force2))
     # (Line 33) KillUnitAt(All, '(men)', 'd', P8);
+    DoActions(KillUnitAt(All, '(men)', 'd', P8))
     # (Line 35) if(t == 1) {
-    DoActions([
-        KillUnitAt(All, mUnit, 'u', Force2),
-        KillUnitAt(All, mUnit, 'd', Force2),
-        KillUnitAt(All, mUnit, 'l', Force2),
-        KillUnitAt(All, mUnit, 'r', Force2),
-        KillUnitAt(All, '(men)', 'd', P8)
-    ])
     if EUDIf()(t == 1):
         # (Line 36) for(var i = 0 ; i < 2 ; i++) {
         i = EUDVariable()
         i << (0)
-        if EUDWhile()(i < 2):
-            def _t20():
+        if EUDWhile()(i >= 2, neg=True):
+            def _t4():
                 i.__iadd__(1)
             # (Line 37) for(var j = 0 ; j < 5 ; j++) {
             j = EUDVariable()
             j << (0)
-            if EUDWhile()(j < 5):
-                def _t22():
+            if EUDWhile()(j >= 5, neg=True):
+                def _t6():
                     j.__iadd__(1)
                 # (Line 38) const x, y = 1 + i * 8, 1 + j * 2;
                 x, y = List2Assignable([1 + i * 8, 1 + j * 2])
                 # (Line 39) cl.mloc_tile($L('cloc1'), x, y, 0);
-                # (Line 40) RunAIScriptAt('Recall Here', 'cloc1');
                 cl.f_mloc_tile(GetLocationIndex('cloc1'), x, y, 0)
-                # (Line 41) }
+                # (Line 40) RunAIScriptAt('Recall Here', 'cloc1');
                 DoActions(RunAIScriptAt('Recall Here', 'cloc1'))
+                # (Line 41) }
                 # (Line 42) }
                 EUDSetContinuePoint()
-                _t22()
+                _t6()
             EUDEndWhile()
             # (Line 43) }
             EUDSetContinuePoint()
-            _t20()
+            _t4()
         EUDEndWhile()
         # (Line 44) else if(t == loopt) {
     if EUDElseIf()(t == loopt):
@@ -160,22 +214,22 @@ def f_pattern():
         # (Line 46) for(var i = 0 ; i < 2 ; i++) {
         i = EUDVariable()
         i << (0)
-        if EUDWhile()(i < 2):
-            def _t26():
+        if EUDWhile()(i >= 2, neg=True):
+            def _t9():
                 i.__iadd__(1)
             # (Line 47) for(var j = 0 ; j < 5 ; j++) {
             j = EUDVariable()
             j << (0)
-            if EUDWhile()(j < 5):
-                def _t28():
+            if EUDWhile()(j >= 5, neg=True):
+                def _t11():
                     j.__iadd__(1)
                 # (Line 48) const x, y = 1 + i * 8, 1 + j * 2;
                 x, y = List2Assignable([1 + i * 8, 1 + j * 2])
                 # (Line 49) cl.mloc_tile($L('cloc1'), x, y, -40);
-                # (Line 50) CreateUnit(1, mUnit, "cloc1", P7);
                 cl.f_mloc_tile(GetLocationIndex('cloc1'), x, y, -40)
-                # (Line 51) const px, py = cl.getTilePos(x, y);
+                # (Line 50) CreateUnit(1, mUnit, "cloc1", P7);
                 DoActions(CreateUnit(1, mUnit, "cloc1", P7))
+                # (Line 51) const px, py = cl.getTilePos(x, y);
                 px, py = List2Assignable([cl.f_getTilePos(x, y)])
                 # (Line 52) const angle = gangle + (36 * 3) * (i + j * 2);
                 angle = gangle + (36 * 3) * (i + j * 2)
@@ -184,17 +238,17 @@ def f_pattern():
                 # (Line 54) const dpx, dpy = cl.getInfiniteVectorEnd(px, py, dx, dy);
                 dpx, dpy = List2Assignable([cl.f_getInfiniteVectorEnd(px, py, dx, dy)])
                 # (Line 55) cl.mloc_px($L('cloc2'), dpx, dpy, 0);
-                # (Line 56) Order(mUnit, P7, 'cloc1', Move, 'cloc2');
                 cl.f_mloc_px(GetLocationIndex('cloc2'), dpx, dpy, 0)
-                # (Line 57) }
+                # (Line 56) Order(mUnit, P7, 'cloc1', Move, 'cloc2');
                 DoActions(Order(mUnit, P7, 'cloc1', Move, 'cloc2'))
+                # (Line 57) }
                 # (Line 58) }
                 EUDSetContinuePoint()
-                _t28()
+                _t11()
             EUDEndWhile()
             # (Line 60) gangle += dangle;
             EUDSetContinuePoint()
-            _t26()
+            _t9()
         EUDEndWhile()
         gangle.__iadd__(dangle)
         # (Line 61) if(gangle >= 360) gangle -= 360;

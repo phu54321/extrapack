@@ -48,9 +48,9 @@ class _ATTW:
         ov = getattr(self.obj, self.attrName)
         setattr(self.obj, self.attrName, ov * v)
 
-    def __idiv__(self, v):
+    def __ifloordiv__(self, v):
         ov = getattr(self.obj, self.attrName)
-        setattr(self.obj, self.attrName, ov / v)
+        setattr(self.obj, self.attrName, ov // v)
 
     def __iand__(self, v):
         ov = getattr(self.obj, self.attrName)
@@ -65,11 +65,40 @@ class _ATTW:
         setattr(self.obj, self.attrName, ov ^ v)
 
 class _ARRW:
-     def __init__(self, obj, index):
-         self.obj = obj
-         self.index = index
-     def __lshift__(self, r):
-         self.obj[self.index] = r
+    def __init__(self, obj, index):
+        self.obj = obj
+        self.index = index
+
+    def __lshift__(self, r):
+        self.obj[self.index] = r
+
+    def __iadd__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov + v
+
+    def __isub__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov - v
+
+    def __imul__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov * v
+
+    def __ifloordiv__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov // v
+
+    def __iand__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov & v
+
+    def __ior__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov | v
+
+    def __ixor__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov ^ v
 
 def _L2V(l):
     ret = EUDVariable()

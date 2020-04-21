@@ -480,5 +480,5 @@ def victorytext():
 
 LoadMap('temp.scx')
 CompressPayload(True)
-SaveMap('Missile pack [ext] v3.1.scx', main)
+SaveMap(f'Missile pack [ext] {config.version}.scx', main)
 os.remove('temp.scx')

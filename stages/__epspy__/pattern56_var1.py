@@ -32,15 +32,73 @@ class _ATTW:
     def __init__(self, obj, attrName):
         self.obj = obj
         self.attrName = attrName
+
     def __lshift__(self, r):
         setattr(self.obj, self.attrName, r)
 
+    def __iadd__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov + v)
+
+    def __isub__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov - v)
+
+    def __imul__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov * v)
+
+    def __ifloordiv__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov // v)
+
+    def __iand__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov & v)
+
+    def __ior__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov | v)
+
+    def __ixor__(self, v):
+        ov = getattr(self.obj, self.attrName)
+        setattr(self.obj, self.attrName, ov ^ v)
+
 class _ARRW:
-     def __init__(self, obj, index):
-         self.obj = obj
-         self.index = index
-     def __lshift__(self, r):
-         self.obj[self.index] = r
+    def __init__(self, obj, index):
+        self.obj = obj
+        self.index = index
+
+    def __lshift__(self, r):
+        self.obj[self.index] = r
+
+    def __iadd__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov + v
+
+    def __isub__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov - v
+
+    def __imul__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov * v
+
+    def __ifloordiv__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov // v
+
+    def __iand__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov & v
+
+    def __ior__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov | v
+
+    def __ixor__(self, v):
+        ov = self.obj[self.index]
+        self.obj[self.index] = ov ^ v
 
 def _L2V(l):
     ret = EUDVariable()
@@ -89,7 +147,7 @@ def f_pattern():
         # (Line 17) for(var i = 0 ; i < 4 ; i++) {
         i = EUDVariable()
         i << (0)
-        if EUDWhile()(i < 4):
+        if EUDWhile()(i >= 4, neg=True):
             def _t3():
                 i.__iadd__(1)
             # (Line 18) const a = angle + i * 90;
@@ -97,40 +155,36 @@ def f_pattern():
             # (Line 19) const cdx, cdy = lengthdir(50, a);
             cdx, cdy = List2Assignable([f_lengthdir(50, a)])
             # (Line 20) cl.mloc_px($L('cloc1'), cdx + cx, cdy + cy, -22);
-            # (Line 21) const dx1, dy1 = lengthdir(600, a);
             cl.f_mloc_px(GetLocationIndex('cloc1'), cdx + cx, cdy + cy, -22)
+            # (Line 21) const dx1, dy1 = lengthdir(600, a);
             dx1, dy1 = List2Assignable([f_lengthdir(600, a)])
             # (Line 22) const ddx, ddy = cl.getInfiniteVectorEnd(cx, cy, dx1, dy1);
             ddx, ddy = List2Assignable([cl.f_getInfiniteVectorEnd(cx, cy, dx1, dy1)])
             # (Line 23) cl.mloc_px($L('cloc2'), ddx, ddy, 0);
-            # (Line 24) CreateUnit(1, 'Small Missile', 'cloc1', P7);
             cl.f_mloc_px(GetLocationIndex('cloc2'), ddx, ddy, 0)
+            # (Line 24) CreateUnit(1, 'Small Missile', 'cloc1', P7);
+            DoActions(CreateUnit(1, 'Small Missile', 'cloc1', P7))
             # (Line 25) Order('Small Missile', P7, 'cloc1', Move, 'cloc2');
+            DoActions(Order('Small Missile', P7, 'cloc1', Move, 'cloc2'))
             # (Line 26) }
-            DoActions([
-                CreateUnit(1, 'Small Missile', 'cloc1', P7),
-                Order('Small Missile', P7, 'cloc1', Move, 'cloc2')
-            ])
             # (Line 27) cl.mloc_px($L('cloc1'), cx, cy, 0);
             EUDSetContinuePoint()
             _t3()
         EUDEndWhile()
-        # (Line 28) CreateUnit(1, "Flare", 'cloc1', P7);
         cl.f_mloc_px(GetLocationIndex('cloc1'), cx, cy, 0)
+        # (Line 28) CreateUnit(1, "Flare", 'cloc1', P7);
+        DoActions(CreateUnit(1, "Flare", 'cloc1', P7))
         # (Line 29) KillUnitAt(All, 'Flare', 'Anywhere', P7);
+        DoActions(KillUnitAt(All, 'Flare', 'Anywhere', P7))
         # (Line 31) KillUnitAt(All, 'Small Missile', 'u', P7);
+        DoActions(KillUnitAt(All, 'Small Missile', 'u', P7))
         # (Line 32) KillUnitAt(All, 'Small Missile', 'l', P7);
+        DoActions(KillUnitAt(All, 'Small Missile', 'l', P7))
         # (Line 33) KillUnitAt(All, 'Small Missile', 'd', P7);
+        DoActions(KillUnitAt(All, 'Small Missile', 'd', P7))
         # (Line 34) KillUnitAt(All, 'Small Missile', 'r', P7);
+        DoActions(KillUnitAt(All, 'Small Missile', 'r', P7))
         # (Line 36) angle = (angle + t) % 360;
-        DoActions([
-            CreateUnit(1, "Flare", 'cloc1', P7),
-            KillUnitAt(All, 'Flare', 'Anywhere', P7),
-            KillUnitAt(All, 'Small Missile', 'u', P7),
-            KillUnitAt(All, 'Small Missile', 'l', P7),
-            KillUnitAt(All, 'Small Missile', 'd', P7),
-            KillUnitAt(All, 'Small Missile', 'r', P7)
-        ])
         angle << ((angle + t) % 360)
         # (Line 37) t += dt;
         t.__iadd__(dt)
